@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Makes the website responsive on mobile screens. Matches screen width with device -->
+    <title>Australian by Design</title>
+    <link rel="stylesheet" href="Mobilescreen.css" />
+  </head>
+  <body>
+    <!-- phone screen frame -->
+    <div class="app">
+      <!--  -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <
+            type="button"
+            class="icon-btn"
+            id="btn-header-cart"　 <!-- javaScript needs to find this button and add a click action -->
+            aria-label="Cart"
+          >
+            C
+          </button>
+        </div>
+      </header>
+
+      <!-- 1) homescreen --> <!-- 1) each section representing one screen of the website -->
+      <section id="screen-home" class="screen screen--active"> <!-- 1) screen active = screen will be visble first (user entry point) -->
+        <div class="browse-bar">Browse Categories</div>
+
+        <label class="visually-hidden" for="search-home">Search</label>
+        <input
+          id="search-home"
+          class="search-input"
+          type="search"
+          placeholder="Search for gifts, jewelries and arts"
+        />
+
+        <div class="chips">  <!-- 1) chips = small category labels -->
+          <span class="chip">Jewelries</span>
+          <span class="chip">Decorations</span>
+          <span class="chip">Paintings</span>
+        </div>
+
+        <div class="hero card">
+          <h1>Handcrafted Australian gifts</h1>
+          <p class="hero-text">
+            Discover artisan-made pieces for meaningful gifting
+          </p>
+          <button type="button" class="btn btn-primary" id="btn-shop-now">
+            Shop now
+          </button>
+        </div>
+
+        <div class="placeholder hero-image" aria-hidden="true">
+          Hero Image
+        </div>
+
+        <h2 class="section-title">Featured Products</h2>
+
+        <article class="product-row card">
+          <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+          <div class="product-row-body">
+            <h3 class="product-name">Decoration Flora Koala</h3>
+            <p class="price">$15.00</p>
+            <button type="button" class="btn btn-outline btn-view-featured">
+              View
+            </button>
+          </div>
+        </article>
+
+        <article class="product-row card">  <!-- 3) product row = controls the layout of this product row  -->
+          <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+          <div class="product-row-body">
+            <h3 class="product-name">Decoration Flora Kangaroo</h3>
+            <p class="price">$15.00</p>
+            <button type="button" class="btn btn-outline btn-view-featured">
+              View
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <!-- 2) product screen -->
+      <section id="screen-detail" class="screen">
+        <h1 class="page-title">
+          Buttonworks Australia Christmas Decoration Flora Koala – Gifts and
+          Souvenirs
+        </h1>
+
+        <div class="placeholder product-hero" aria-hidden="true">
+          Product Image
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Description</h2>
+          <p class="body-text">
+            A handcrafted wooden koala ornament made in Australia from
+            sustainably sourced timber. Designed as a warm and meaningful gift,
+            it adds a charming artisan touch to Christmas décor or souvenir
+            collections.
+          </p>
+        </div>
+
+        <div class="card price-card">
+          <p class="card-title">Price</p>
+          <p class="price price--large">$15.00</p>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="btn-add-cart">
+          Add to cart
+        </button>
+
+        <h2 class="section-title">You may also like...</h2>
+
+        <div class="suggest-grid">
+          <article class="mini-card card">
+            <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Decoration Gumleaf Kookaburra</h3>
+            <p class="price">$15.00</p>
+            <button type="button" class="btn btn-outline btn-block btn-view-detail">
+              View
+            </button>
+          </article>
+          <article class="mini-card card">
+            <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Decoration Flora Kangaroo</h3>
+            <p class="price">$15.00</p>
+            <button type="button" class="btn btn-outline btn-block btn-view-detail">
+              View
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3) product list -->
+      <section id="screen-listing" class="screen">
+        <label class="visually-hidden" for="search-listing">Search</label>
+        <input
+          id="search-listing"
+          class="search-input"
+          type="search"    
+          placeholder="Search for gifts, art or jewellery"
+        />
+
+        <div class="filter-row">
+          <button type="button" class="filter-pill">Filters</button>
+          <button type="button" class="filter-pill">Price</button>
+          <button type="button" class="filter-pill">Sort</button>
+        </div>
+
+        <div class="product-grid">
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Decoration Flora Kangaroo</h3>
+            <p class="price">$15.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Decoration Flora Koala</h3>
+            <p class="price">$15.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Decoration Gumleaf Kookaburra</h3>
+            <p class="price">$15.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Christmas Tree Card</h3>
+            <p class="price">$17.50</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Box of Animal Christmas Decoration</h3>
+            <p class="price">$30.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Christmas Kangaroo Decoration</h3>
+            <p class="price">$30.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Christmas Koala Decoration</h3>
+            <p class="price">$30.00</p>
+          </article>
+          <article class="grid-card card">
+            <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+            <h3 class="product-name">Festive Christmas Tree Decoration</h3>
+            <p class="price">$50.00</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4) Cart/checkout -->
+      <section id="screen-cart" class="screen">
+        <h1 class="page-title">Your cart</h1>
+
+        <ul class="cart-list">
+          <li class="cart-item card">
+            <div class="placeholder cart-thumb" aria-hidden="true">Image</div>
+            <div>
+              <p class="product-name">Decoration Flora Kangaroo</p>
+              <p class="muted">Qty 1</p>
+              <p class="price">$15.00</p>
+            </div>
+          </li>
+          <li class="cart-item card">
+            <div class="placeholder cart-thumb" aria-hidden="true">Image</div>
+            <div>
+              <p class="product-name">Decoration Flora Koala</p>
+              <p class="muted">Qty 1</p>
+              <p class="price">$15.00</p>
+            </div>
+          </li>
+          <li class="cart-item card">
+            <div class="placeholder cart-thumb" aria-hidden="true">Image</div>
+            <div>
+              <p class="product-name">Christmas Koala Decoration</p>
+              <p class="muted">Qty 1</p>
+              <p class="price">$30.00</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="card summary">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="cart-subtotal">$60.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="cart-shipping">$11.00</span>
+          </div>
+          <div class="summary-row summary-row--total">
+            <span>Total</span>
+            <span id="cart-total">$71.00</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="btn-checkout">
+          Checkout
+        </button>
+
+        <form class="checkout-form card" id="checkout-form">
+          <h2 class="card-title">Checkout details</h2>
+          <label>
+            Full name
+            <input type="text" name="fullname" autocomplete="name" /> <!-- 4) autocomplete = retrieving saved info from computer and suggesting the information to be written -->
+          </label>
+          <label>
+            Address
+            <input type="text" name="address" autocomplete="street-address" />
+          </label>
+          <label>
+            Card number
+            <input type="text" name="card" inputmode="numeric" />
+          </label>
+        </form>
+      </section>
+
+      <!-- 5) Confirmation -->
+      <section id="screen-confirmed" class="screen">
+        <h1 class="page-title">Order Confirmed</h1>
+        <p class="body-text">
+          Thank you for your purchase. Your order has been received successfully
+        </p>
+
+        <div class="card">
+          <p class="muted">Order number</p>
+          <p class="emphasis">#ABD1008</p>
+          <p class="muted">Date</p>
+          <p>15 April 2026</p>
+          <p class="muted">Total</p>
+          <p class="price price--large" id="confirmed-total">$71.00</p>
+        </div>
+
+        <h2 class="section-title" id="ordered-items-heading">Ordered items</h2>
+        <ul class="order-list">
+          <li class="card order-line">
+            <span>Decoration Flora Kangaroo</span>
+            <span class="muted">Qty 1</span>
+            <span class="price">$15.00</span>
+          </li>
+          <li class="card order-line">
+            <span>Decoration Flora Koala</span>
+            <span class="muted">Qty 1</span>
+            <span class="price">$15.00</span>
+          </li>
+          <li class="card order-line">
+            <span>Christmas Koala Decoration</span>
+            <span class="muted">Qty 1</span>
+            <span class="price">$30.00</span>
+          </li>
+        </ul>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-outline" id="btn-continue">
+            Continue Shopping
+          </button>
+          <button type="button" class="btn btn-primary" id="btn-view-order">
+            View Order
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+
+ <!--) how does the screen movement work? 
+1. Hide all screens
+2. Find the selected screen by ID
+3. Add screen--active to show it
+-->
+
