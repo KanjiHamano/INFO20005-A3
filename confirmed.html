@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian by Design – Order Confirmed</title>
+    <!-- Link to the shared stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- HEADER -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <!-- After confirming, cart will be empty, so badge stays at 0 -->
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Confirmation checkmark icon -->
+      <div class="confirmed-icon">✔</div>
+
+      <h1 class="page-title" style="text-align:center;">Order Confirmed</h1>
+
+      <p class="body-text" style="text-align:center; margin-bottom:20px;">
+        Thank you for your purchase. Your order has been received successfully.
+      </p>
+
+      <!-- ORDER SUMMARY CARD
+           The total is filled in by JavaScript from localStorage. -->
+      <div class="card">
+        <p class="muted">Order number</p>
+        <p class="emphasis">#ABD1008</p>
+        <p class="muted">Date</p>
+        <p id="order-date">—</p>
+        <p class="muted" style="margin-top:8px;">Total</p>
+        <p class="price price--large" id="confirmed-total">$0.00</p>
+      </div>
+
+      <!-- ORDERED ITEMS LIST
+           The JavaScript below reads the cart from localStorage
+           and displays each item here before clearing the cart. -->
+      <h2 class="section-title" id="ordered-items-heading">Ordered items</h2>
+      <ul class="order-list" id="order-list">
+        <!-- Items inserted by JavaScript -->
+      </ul>
+
+      <!-- BUTTONS -->
+      <div class="btn-row">
+        <!-- "Continue Shopping" is a plain HTML link — no JavaScript needed -->
+        <a href="index.html" class="btn btn-outline">Continue Shopping</a>
+        <!-- "View Order" scrolls down to the ordered items list -->
+        <button type="button" class="btn btn-primary" id="btn-view-order">
+          View Order
+        </button>
+      </div>
+
+    </div><!-- end .app -->
+
+    <!-- Load the shared cart script -->
+    <script src="cart.js"></script>
+
+    <!-- Order confirmation script -->
+    <script>
+      /* ============================================================
+         confirmed.html script
+         
+         This script does the following:
+         1. Reads the cart from localStorage BEFORE clearing it
+         2. Calculates the total (subtotal + $11 shipping)
+         3. Fills in today's date as the order date
+         4. Displays each ordered item in the list
+         5. Clears the cart from localStorage
+         6. "View Order" button scrolls down to the items list
+         ============================================================ */
+
+      document.addEventListener("DOMContentLoaded", function () {
+
+        /* --- STEP 1: Read the cart from localStorage ---
+           We must read BEFORE we clear, so we still have the data. */
+        var cart = getCart(); /* getCart() is from cart.js */
+
+        /* --- STEP 2: Calculate the total ---
+           Same logic as cart.html: subtotal + $11 shipping */
+        var SHIPPING = 11.00;
+        var subtotal = 0;
+
+        for (var i = 0; i < cart.length; i++) {
+          subtotal = subtotal + (cart[i].price * cart[i].qty);
+        }
+
+        var total = subtotal + SHIPPING;
+
+        /* --- STEP 3: Show today's date ---
+           JavaScript's Date object gives us the current date.
+           toLocaleDateString() formats it nicely, e.g. "22 May 2026" */
+        var today = new Date();
+        document.getElementById("order-date").textContent =
+          today.toLocaleDateString("en-AU", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+          });
+
+        /* --- STEP 4: Show the total amount --- */
+        document.getElementById("confirmed-total").textContent =
+          "$" + total.toFixed(2);
+
+        /* --- STEP 5: Build the ordered items list ---
+           Same as cart.html but using the order-list styling */
+        var orderList = document.getElementById("order-list");
+
+        if (cart.length === 0) {
+          /* If somehow the cart was empty, show a simple message */
+          orderList.innerHTML = "<li class='card' style='padding:12px;'>No items found.</li>";
+        } else {
+          for (var j = 0; j < cart.length; j++) {
+            var item = cart[j];
+            var lineTotal = item.price * item.qty;
+
+            /* Build one list item row for each ordered product */
+            var itemHTML =
+              '<li class="card order-line">' +
+                '<span>' + item.name + '</span>' +
+                '<span class="muted">Qty ' + item.qty + '</span>' +
+                '<span class="price">$' + lineTotal.toFixed(2) + '</span>' +
+              '</li>';
+
+            orderList.innerHTML = orderList.innerHTML + itemHTML;
+          }
+        }
+
+        /* --- STEP 6: Clear the cart from localStorage ---
+           We use removeItem() to delete the "cart" entry.
+           After this, getCart() would return an empty array []. */
+        localStorage.removeItem("cart");
+
+        /* Update the badge to 0 now that cart is cleared */
+        updateCartBadge();
+
+        /* --- View Order button: scrolls down to the items section --- */
+        document.getElementById("btn-view-order").addEventListener("click", function () {
+          /* scrollIntoView() scrolls the page until this element is visible */
+          document.getElementById("ordered-items-heading").scrollIntoView({
+            behavior: "smooth", /* smooth animated scroll */
+            block: "start"
+          });
+        });
+
+      }); /* end DOMContentLoaded */
+    </script>
+  </body>
+</html>

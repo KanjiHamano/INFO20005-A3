@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian by Design – Product Detail</title>
+    <!-- Link to the shared stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- HEADER -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <!-- Cart icon links directly to cart.html -->
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Back link: goes to listing.html -->
+      <a href="listing.html" class="back-link">← All Products</a>
+
+      <!-- PRODUCT DETAIL CONTENT
+           These elements start empty (no text/content).
+           The JavaScript at the bottom of this page reads the ?id=
+           from the URL and fills them in with the right product data. -->
+
+      <!-- Product title — filled in by JavaScript -->
+      <h1 class="page-title" id="detail-name">Loading...</h1>
+
+      <!-- Placeholder image box (no real image yet) -->
+      <div class="placeholder product-hero" aria-hidden="true">Product Image</div>
+
+      <!-- Description card — text filled in by JavaScript -->
+      <div class="card">
+        <h2 class="card-title">Description</h2>
+        <p class="body-text" id="detail-desc">Loading...</p>
+      </div>
+
+      <!-- Price card — price filled in by JavaScript -->
+      <div class="card price-card">
+        <p class="card-title">Price</p>
+        <p class="price price--large" id="detail-price">$0.00</p>
+      </div>
+
+      <!-- Quantity picker: + and - buttons change the number shown -->
+      <div class="qty-control">
+        <button type="button" class="qty-btn" id="btn-minus">−</button>
+        <span class="qty-display" id="qty-display">1</span>
+        <button type="button" class="qty-btn" id="btn-plus">+</button>
+      </div>
+
+      <!-- Add to cart button — calls addToCart() from cart.js -->
+      <button type="button" class="btn btn-primary btn-block" id="btn-add-cart">
+        Add to cart
+      </button>
+
+      <!-- "You may also like" section — links filled in by JavaScript -->
+      <h2 class="section-title">You may also like...</h2>
+      <div class="suggest-grid" id="suggest-grid">
+        <!-- Two suggestion cards are inserted here by JavaScript -->
+      </div>
+
+    </div><!-- end .app -->
+
+    <!-- Toast pop-up message -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Load the shared cart script FIRST (it has the PRODUCTS array) -->
+    <script src="cart.js"></script>
+
+    <!-- Product detail page script -->
+    <script>
+      /* ============================================================
+         product.html script
+         
+         This script does the following:
+         1. Reads the ?id= number from the URL (e.g. product.html?id=0)
+         2. Finds the matching product in the PRODUCTS array (from cart.js)
+         3. Fills in the product name, description, and price on the page
+         4. Handles the + / - quantity buttons
+         5. Handles the "Add to cart" button
+         6. Shows two "You may also like" suggestions
+         ============================================================ */
+
+      /* --- STEP 1: Read the product ID from the URL ---
+         
+         When you visit product.html?id=2, the browser stores
+         everything after the ? as "search parameters".
+         URLSearchParams lets us read those easily.
+         
+         Example: product.html?id=2  →  productId = 2 */
+      var params = new URLSearchParams(window.location.search);
+      var productId = parseInt(params.get("id")); // convert text "2" → number 2
+
+      /* If the id is missing or invalid, default to product 0 */
+      if (isNaN(productId) || productId < 0 || productId >= PRODUCTS.length) {
+        productId = 0;
+      }
+
+      /* --- STEP 2: Get the product from the PRODUCTS array ---
+         PRODUCTS is defined in cart.js (loaded above).
+         We use the productId as the index, e.g. PRODUCTS[2] */
+      var product = PRODUCTS[productId];
+
+
+      /* --- STEP 3: Fill in the page with the product data ---
+         document.getElementById("id") finds the HTML element with that id.
+         We then set .textContent to change what it says. */
+
+      document.getElementById("detail-name").textContent = product.name;
+
+      /* Format the price to 2 decimal places: 15 → "$15.00" */
+      document.getElementById("detail-price").textContent =
+        "$" + product.price.toFixed(2);
+
+      /* Short descriptions for each product.
+         The index matches the product id in the PRODUCTS array. */
+      var descriptions = [
+        "A handcrafted wooden koala ornament made in Australia from sustainably sourced timber. A warm and meaningful gift for Christmas décor or souvenir collections.",
+        "A charming wooden kangaroo decoration handmade in Australia. A beautiful Australian-themed gift, perfect for the holiday season.",
+        "A delightful kookaburra decoration with gumleaf detailing. Handcrafted and made to celebrate Australian wildlife.",
+        "A festive Christmas card featuring an Australian tree design. Printed on quality card stock with a heartfelt seasonal message inside.",
+        "An adorable koala decoration with a Christmas theme. Handmade in Australia — a perfect stocking stuffer or tree ornament.",
+        "A festive kangaroo decoration with Christmas styling. Handcrafted in Australia, great as a gift or holiday decoration.",
+        "A beautiful festive Christmas tree decoration. Lovingly handcrafted in Australia using natural materials."
+      ];
+
+      document.getElementById("detail-desc").textContent =
+        descriptions[productId];
+
+
+      /* --- STEP 4: Quantity control ---
+         We store the current quantity in a variable called qty.
+         The + button increases it, the - button decreases it (minimum 1). */
+
+      var qty = 1; /* start at quantity 1 */
+
+      document.getElementById("btn-plus").addEventListener("click", function () {
+        qty = qty + 1; /* increase by 1 */
+        document.getElementById("qty-display").textContent = qty;
+      });
+
+      document.getElementById("btn-minus").addEventListener("click", function () {
+        if (qty > 1) { /* never go below 1 */
+          qty = qty - 1;
+          document.getElementById("qty-display").textContent = qty;
+        }
+      });
+
+
+      /* --- STEP 5: Add to cart button ---
+         When clicked, we call addToCart() from cart.js once for each
+         quantity the user selected. (e.g. qty=3 → addToCart 3 times) */
+
+      document.getElementById("btn-add-cart").addEventListener("click", function () {
+        for (var i = 0; i < qty; i++) {
+          addToCart(productId);
+        }
+      });
+
+
+      /* --- STEP 6: Build the "You may also like" suggestions ---
+         We show 2 other products from the PRODUCTS array.
+         We skip the current product and pick the next two. */
+
+      var suggestGrid = document.getElementById("suggest-grid");
+      var shown = 0; /* how many suggestions we have shown so far */
+      var index = 0; /* which product we are checking */
+
+      while (shown < 2 && index < PRODUCTS.length) {
+        if (index !== productId) { /* skip the product already on screen */
+          var suggestion = PRODUCTS[index];
+
+          /* Build the HTML for one suggestion card.
+             Template literals (backtick strings) let us put variables
+             directly inside the text using ${variableName} */
+          var cardHTML =
+            '<article class="mini-card card">' +
+              '<div class="placeholder thumb" aria-hidden="true">Product Image</div>' +
+              '<h3 class="product-name">' + suggestion.name + '</h3>' +
+              '<p class="price">$' + suggestion.price.toFixed(2) + '</p>' +
+              '<a href="product.html?id=' + index + '" class="btn btn-outline btn-block">View</a>' +
+            '</article>';
+
+          /* Insert the card HTML into the suggest-grid div */
+          suggestGrid.innerHTML = suggestGrid.innerHTML + cardHTML;
+          shown = shown + 1;
+        }
+        index = index + 1;
+      }
+    </script>
+  </body>
+</html>

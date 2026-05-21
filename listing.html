@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian by Design – Products</title>
+    <!-- Link to the shared stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- HEADER -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Back to Home -->
+      <a href="index.html" class="back-link">← Home</a>
+
+      <!-- SEARCH BAR -->
+      <label class="visually-hidden" for="search-listing">Search</label>
+      <input
+        id="search-listing"
+        class="search-input"
+        type="search"
+        placeholder="Search for gifts, art or jewellery"
+      />
+
+      <!-- FILTER PILLS (visual only — not connected to logic) -->
+      <div class="filter-row">
+        <button type="button" class="filter-pill">Filters</button>
+        <button type="button" class="filter-pill">Price</button>
+        <button type="button" class="filter-pill">Sort</button>
+      </div>
+
+      <!-- PRODUCT GRID
+           Each card has:
+           - a "View" link → product.html?id=X  (HTML link, no JS)
+           - an "Add to cart" button → calls addToCart(id) from cart.js
+           
+           The ?id=X number matches the product id in the PRODUCTS array
+           inside cart.js, so product.html knows which product to show. -->
+      <div class="product-grid">
+
+        <!-- Product 0: Decoration Flora Koala -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Decoration Flora Koala</h3>
+          <p class="price">$15.00</p>
+          <a href="product.html?id=0" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(0)">Add to cart</button>
+        </article>
+
+        <!-- Product 1: Decoration Flora Kangaroo -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Decoration Flora Kangaroo</h3>
+          <p class="price">$15.00</p>
+          <a href="product.html?id=1" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(1)">Add to cart</button>
+        </article>
+
+        <!-- Product 2: Decoration Gumleaf Kookaburra -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Decoration Gumleaf Kookaburra</h3>
+          <p class="price">$15.00</p>
+          <a href="product.html?id=2" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(2)">Add to cart</button>
+        </article>
+
+        <!-- Product 3: Christmas Tree Card -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Christmas Tree Card</h3>
+          <p class="price">$17.50</p>
+          <a href="product.html?id=3" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(3)">Add to cart</button>
+        </article>
+
+        <!-- Product 4: Christmas Koala Decoration -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Christmas Koala Decoration</h3>
+          <p class="price">$30.00</p>
+          <a href="product.html?id=4" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(4)">Add to cart</button>
+        </article>
+
+        <!-- Product 5: Christmas Kangaroo Decoration -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Christmas Kangaroo Decoration</h3>
+          <p class="price">$30.00</p>
+          <a href="product.html?id=5" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(5)">Add to cart</button>
+        </article>
+
+        <!-- Product 6: Festive Christmas Tree Decoration -->
+        <article class="grid-card card">
+          <div class="placeholder grid-img" aria-hidden="true">Product Image</div>
+          <h3 class="product-name">Festive Christmas Tree Decoration</h3>
+          <p class="price">$50.00</p>
+          <a href="product.html?id=6" class="btn btn-outline btn-block" style="margin-bottom:6px; font-size:0.85rem;">View</a>
+          <button type="button" class="btn btn-primary btn-block" style="font-size:0.85rem;" onclick="addToCart(6)">Add to cart</button>
+        </article>
+
+      </div><!-- end .product-grid -->
+
+    </div><!-- end .app -->
+
+    <!-- Toast pop-up message (defined in cart.js) -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Load the shared cart script -->
+    <script src="cart.js"></script>
+  </body>
+</html>

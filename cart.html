@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian by Design – Cart</title>
+    <!-- Link to the shared stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- HEADER -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Back link -->
+      <a href="listing.html" class="back-link">← Continue Shopping</a>
+
+      <h1 class="page-title">Your cart</h1>
+
+      <!-- CART ITEM LIST
+           This <ul> starts empty.
+           The JavaScript below reads the cart from localStorage
+           and creates one <li> for each item. -->
+      <ul class="cart-list" id="cart-list">
+        <!-- Items are inserted here by JavaScript -->
+      </ul>
+
+      <!-- MESSAGE shown when cart is empty -->
+      <p class="empty-cart-msg" id="empty-msg" style="display:none">
+        Your cart is empty. <a href="listing.html">Shop now</a>
+      </p>
+
+      <!-- ORDER SUMMARY BOX
+           These values are calculated by JavaScript below. -->
+      <div class="card summary" id="summary-box">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <!-- Shipping is always $11.00 (fixed) -->
+          <span id="cart-shipping">$11.00</span>
+        </div>
+        <div class="summary-row summary-row--total">
+          <span>Total</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+      </div>
+
+      <!-- CHECKOUT BUTTON — links to confirmed.html (no JS needed) -->
+      <a href="confirmed.html" class="btn btn-primary btn-block" id="checkout-btn"
+         style="text-align:center; display:block; margin-bottom:16px;">
+        Checkout
+      </a>
+
+      <!-- CHECKOUT FORM -->
+      <form class="checkout-form card" id="checkout-form">
+        <h2 class="card-title">Checkout details</h2>
+        <label>
+          Full name
+          <input type="text" name="fullname" autocomplete="name" />
+        </label>
+        <label>
+          Address
+          <input type="text" name="address" autocomplete="street-address" />
+        </label>
+        <label>
+          Card number
+          <input type="text" name="card" inputmode="numeric" />
+        </label>
+      </form>
+
+    </div><!-- end .app -->
+
+    <!-- Load the shared cart script -->
+    <script src="cart.js"></script>
+
+    <!-- Cart page script -->
+    <script>
+      /* ============================================================
+         cart.html script
+         
+         This script does the following:
+         1. Reads the cart from localStorage (using getCart() from cart.js)
+         2. Builds the list of cart items on the page
+         3. Calculates: subtotal = sum of (price × qty) for each item
+         4. Shipping is fixed at $11.00
+         5. Total = subtotal + shipping
+         6. If the cart is empty, shows an "empty cart" message
+            and hides the summary and checkout button
+         ============================================================ */
+
+      /* Run this code once the page has finished loading */
+      document.addEventListener("DOMContentLoaded", function () {
+
+        /* --- Read the cart from localStorage ---
+           getCart() is defined in cart.js.
+           It returns an array like:
+           [
+             { id: 0, name: "...", price: 15, qty: 2 },
+             { id: 4, name: "...", price: 30, qty: 1 }
+           ] */
+        var cart = getCart();
+
+        var cartList    = document.getElementById("cart-list");
+        var emptyMsg    = document.getElementById("empty-msg");
+        var summaryBox  = document.getElementById("summary-box");
+        var checkoutBtn = document.getElementById("checkout-btn");
+        var checkoutForm = document.getElementById("checkout-form");
+
+        /* --- Check if the cart is empty --- */
+        if (cart.length === 0) {
+          /* Show the "Your cart is empty" message */
+          emptyMsg.style.display = "block";
+          /* Hide the summary and checkout button */
+          summaryBox.style.display   = "none";
+          checkoutBtn.style.display  = "none";
+          checkoutForm.style.display = "none";
+          return; /* stop here, nothing more to do */
+        }
+
+        /* --- Build the cart item list ---
+           We loop through every item in the cart array
+           and create one <li> element for each one. */
+
+        var subtotal = 0; /* we will add to this as we loop */
+
+        for (var i = 0; i < cart.length; i++) {
+          var item = cart[i];
+
+          /* Calculate the line total for this item (price × qty) */
+          var lineTotal = item.price * item.qty;
+
+          /* Add this item's line total to the overall subtotal */
+          subtotal = subtotal + lineTotal;
+
+          /* Build the HTML for this cart item.
+             We use string concatenation (+) to build the HTML. */
+          var itemHTML =
+            '<li class="cart-item card">' +
+              '<div class="placeholder cart-thumb" aria-hidden="true">Image</div>' +
+              '<div>' +
+                '<p class="product-name">' + item.name + '</p>' +
+                '<p class="muted">Qty ' + item.qty + '</p>' +
+                '<p class="price">$' + lineTotal.toFixed(2) + '</p>' +
+              '</div>' +
+            '</li>';
+
+          /* Add this item to the <ul> on the page */
+          cartList.innerHTML = cartList.innerHTML + itemHTML;
+        }
+
+        /* --- Calculate shipping and total ---
+           Shipping is always $11.00 (a fixed fee).
+           Total = subtotal + shipping. */
+        var SHIPPING = 11.00;
+        var total = subtotal + SHIPPING;
+
+        /* --- Update the summary numbers on screen ---
+           .toFixed(2) formats the number to 2 decimal places.
+           e.g.  15 → "15.00" */
+        document.getElementById("cart-subtotal").textContent =
+          "$" + subtotal.toFixed(2);
+
+        document.getElementById("cart-shipping").textContent =
+          "$" + SHIPPING.toFixed(2);
+
+        document.getElementById("cart-total").textContent =
+          "$" + total.toFixed(2);
+
+      }); /* end DOMContentLoaded */
+    </script>
+  </body>
+</html>

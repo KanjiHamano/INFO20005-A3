@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian by Design – Home</title>
+    <!-- Link to the shared stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- .app centres the content and limits it to phone width -->
+    <div class="app">
+
+      <!-- HEADER: appears on every page.
+           The cart icon is a normal HTML link to cart.html -->
+      <header class="site-header">
+        <p class="logo">AUSTRALIAN BY DESIGN</p>
+        <div class="header-actions">
+          <button type="button" class="icon-btn" aria-label="Account">A</button>
+          <!-- Clicking this link navigates to cart.html (no JavaScript needed) -->
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+          </a>
+        </div>
+      </header>
+
+      <!-- HOME PAGE CONTENT -->
+
+      <div class="browse-bar">Browse Categories</div>
+
+      <!-- Search bar: not connected to a server, just visual for now -->
+      <label class="visually-hidden" for="search-home">Search</label>
+      <input
+        id="search-home"
+        class="search-input"
+        type="search"
+        placeholder="Search for gifts, jewelries and arts"
+      />
+
+      <!-- Category chips: clickable tags for browsing -->
+      <div class="chips">
+        <span class="chip">Jewelries</span>
+        <span class="chip">Decorations</span>
+        <span class="chip">Paintings</span>
+      </div>
+
+      <!-- Hero card: main banner with a "Shop now" link -->
+      <div class="hero card">
+        <h1>Handcrafted Australian gifts</h1>
+        <p class="hero-text">
+          Discover artisan-made pieces for meaningful gifting
+        </p>
+        <!-- "Shop now" is now a plain HTML link — no JavaScript needed -->
+        <a href="listing.html" class="btn btn-primary">Shop now</a>
+      </div>
+
+      <!-- Placeholder image (no real image yet) -->
+      <div class="placeholder hero-image" aria-hidden="true">
+        Hero Image
+      </div>
+
+      <h2 class="section-title">Featured Products</h2>
+
+      <!-- Featured product 1: "View" links to product.html?id=0 -->
+      <article class="product-row card">
+        <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+        <div class="product-row-body">
+          <h3 class="product-name">Decoration Flora Koala</h3>
+          <p class="price">$15.00</p>
+          <!-- ?id=0 tells product.html which product to show -->
+          <a href="product.html?id=0" class="btn btn-outline">View</a>
+        </div>
+      </article>
+
+      <!-- Featured product 2: "View" links to product.html?id=1 -->
+      <article class="product-row card">
+        <div class="placeholder thumb" aria-hidden="true">Product Image</div>
+        <div class="product-row-body">
+          <h3 class="product-name">Decoration Flora Kangaroo</h3>
+          <p class="price">$15.00</p>
+          <a href="product.html?id=1" class="btn btn-outline">View</a>
+        </div>
+      </article>
+
+    </div><!-- end .app -->
+
+    <!-- Toast notification (shown when item is added to cart) -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Load the shared cart script -->
+    <script src="cart.js"></script>
+  </body>
+</html>
