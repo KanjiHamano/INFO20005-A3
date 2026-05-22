@@ -423,23 +423,56 @@ body {
     border-radius: 10px;
   }
   
-  /* ---------- カート ---------- */
+  /* ---------- Cart ---------- */
   .cart-list {
     list-style: none;
     padding: 0;
     margin: 0 0 12px;
   }
-  
+
+  /* Each cart item row: image | info | remove button side by side.
+     align-items:center keeps everything vertically centred in the row. */
   .cart-item {
     display: flex;
     gap: 12px;
     align-items: center;
   }
-  
+
+  /* --- CART ITEM INFO ---
+     flex:1 makes this div expand to fill all available space between
+     the thumbnail on the left and the Remove button on the right.
+     Without this, the Remove button would crowd up against the text. */
+  .cart-item-info {
+    flex: 1;
+  }
+
   .cart-thumb {
     width: 56px;
     height: 56px;
     font-size: 0.65rem;
+    flex-shrink: 0; /* stop the image from squishing if the row is narrow */
+  }
+
+  /* --- REMOVE BUTTON ---
+     Styled as a plain underlined text link rather than a filled button.
+     This keeps it visually light so it does not compete with "Checkout".
+     The muted red-brown colour signals a destructive action (deleting)
+     without being aggressive. */
+  .btn-remove {
+    background: none;           /* no background fill */
+    border: none;               /* no border box */
+    color: #8b3a3a;             /* muted red-brown — signals "delete" */
+    font-size: 0.8rem;
+    font-family: inherit;       /* match the rest of the page */
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: underline; /* looks like a text link */
+    flex-shrink: 0;             /* prevent button from being squished */
+    white-space: nowrap;        /* keep "Remove" on one line */
+  }
+
+  .btn-remove:hover {
+    color: #5c1a1a;             /* darker red-brown on hover */
   }
   
   .muted {
@@ -676,6 +709,30 @@ body {
   font-size: 3rem;
   text-align: center;
   margin: 20px 0 8px;
+}
+
+/* ---------- Real product images ----------
+   Applied to every <img> that replaces a placeholder box.
+
+   HOW THIS WORKS WITH THE COMPANION CLASSES:
+   Each <img> gets TWO classes — e.g. class="grid-img product-img".
+   - .grid-img (or .thumb, .product-hero, etc.) sets the SIZE (width + height).
+   - .product-img adds the THREE rules below that every product image needs:
+
+   object-fit:cover — if the photo is a different shape to the box,
+     this crops it to fill the box perfectly, just like "fill" in Figma.
+     Without it, the image would be squished or have white bars.
+
+   border-radius:16px — rounds the corners to match the site's card style.
+     The placeholder boxes had this same rounding via .placeholder.
+
+   display:block — removes a small invisible gap that browsers add
+     below inline images by default (because they treat images like text
+     and leave space for descending letters like 'g' and 'p'). */
+.product-img {
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
 }
 
 /* --- ADD-TO-CART FEEDBACK ---

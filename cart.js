@@ -17,13 +17,13 @@
    We use an array (a list) where each item is an object {}.
    The id matches the ?id= number in the URL on product.html */
 var PRODUCTS = [
-  { id: 0, name: "Decoration Flora Koala",        price: 15.00 },
-  { id: 1, name: "Decoration Flora Kangaroo",     price: 15.00 },
-  { id: 2, name: "Decoration Gumleaf Kookaburra", price: 15.00 },
-  { id: 3, name: "Christmas Tree Card",            price: 17.50 },
-  { id: 4, name: "Christmas Koala Decoration",     price: 30.00 },
-  { id: 5, name: "Christmas Kangaroo Decoration",  price: 30.00 },
-  { id: 6, name: "Festive Christmas Tree Decoration", price: 50.00 }
+  { id: 0, name: "Decoration Flora Koala",            price: 15.00, img: "images/flora-koala.jpg" },
+  { id: 1, name: "Decoration Flora Kangaroo",         price: 15.00, img: "images/flora-kangaroo.jpg" },
+  { id: 2, name: "Decoration Gumleaf Kookaburra",     price: 15.00, img: "images/gumleaf-kookaburra.jpg" },
+  { id: 3, name: "Christmas Tree Card",               price: 17.50, img: "images/christmas-card.jpg" },
+  { id: 4, name: "Christmas Koala Decoration",        price: 30.00, img: "images/christmas-koala.jpg" },
+  { id: 5, name: "Christmas Kangaroo Decoration",     price: 30.00, img: "images/christmas-kangaroo.jpg" },
+  { id: 6, name: "Festive Christmas Tree Decoration", price: 50.00, img: "images/festive-tree.jpg" }
 ];
 
 
@@ -149,6 +149,46 @@ function showToast(message) {
   setTimeout(function () {
     toast.classList.remove("show");
   }, 2000);
+}
+
+
+/* --- removeFromCart(productId) ---
+   Removes one product completely from the cart.
+
+   How it works:
+   1. Read the current cart array from localStorage.
+   2. Loop through every item in the cart.
+   3. If an item's id matches the productId we want to remove,
+      we skip it (don't copy it into the new array).
+   4. If an item's id does NOT match, we keep it.
+   5. Save the new (shorter) array back to localStorage.
+   6. Update the badge count in the header.
+
+   This technique — building a new array without the unwanted item —
+   is called "filtering". It is simple and easy to explain. */
+function removeFromCart(productId) {
+
+  // Read the current cart from localStorage
+  var cart = getCart();
+
+  // Build a new empty array to hold the items we want to KEEP
+  var newCart = [];
+
+  // Loop through every item in the old cart
+  for (var i = 0; i < cart.length; i++) {
+
+    // Only keep items whose id does NOT match the one we are removing
+    if (cart[i].id !== productId) {
+      newCart.push(cart[i]); // copy this item across to the new cart
+    }
+    // If cart[i].id === productId, we do nothing → it gets left out
+  }
+
+  // Save the updated cart (the removed item is no longer in it)
+  saveCart(newCart);
+
+  // Update the badge number shown on the cart icon in the header
+  updateCartBadge();
 }
 
 

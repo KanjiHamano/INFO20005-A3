@@ -91,86 +91,128 @@
     <script>
       /* ============================================================
          cart.html script
-         
-         This script does the following:
-         1. Reads the cart from localStorage (using getCart() from cart.js)
-         2. Builds the list of cart items on the page
-         3. Calculates: subtotal = sum of (price × qty) for each item
-         4. Shipping is fixed at $11.00
-         5. Total = subtotal + shipping
-         6. If the cart is empty, shows an "empty cart" message
-            and hides the summary and checkout button
+
+         KEY CHANGE from the original version:
+         The cart display logic is now inside a function called
+         renderCart(). This is important because we need to be able
+         to refresh the cart display AFTER the user removes an item
+         — without reloading the whole page.
+
+         Before: code ran once inside DOMContentLoaded and stopped.
+         Now:    renderCart() can be called any number of times.
+                 It clears the list and rebuilds it from scratch
+                 each time it runs.
          ============================================================ */
 
-      /* Run this code once the page has finished loading */
-      document.addEventListener("DOMContentLoaded", function () {
 
-        /* --- Read the cart from localStorage ---
-           getCart() is defined in cart.js.
-           It returns an array like:
-           [
-             { id: 0, name: "...", price: 15, qty: 2 },
-             { id: 4, name: "...", price: 30, qty: 1 }
-           ] */
-        var cart = getCart();
+      /* --- renderCart() ---
+         Draws (or redraws) the entire cart on screen.
 
-        var cartList    = document.getElementById("cart-list");
-        var emptyMsg    = document.getElementById("empty-msg");
-        var summaryBox  = document.getElementById("summary-box");
-        var checkoutBtn = document.getElementById("checkout-btn");
+         This function is called:
+           1. When the page first loads (to show what's in the cart).
+           2. After the user clicks Remove (to refresh the display).
+
+         Steps:
+           1. Read the cart from localStorage.
+           2. Clear whatever is currently shown on screen.
+           3. If the cart is empty → show the empty message, $0.00 totals.
+           4. If the cart has items → build the list and calculate totals. */
+      function renderCart() {
+
+        // Read the latest cart data from localStorage
+        var cart = getCart(); // getCart() is defined in cart.js
+
+        // Get references to the HTML elements we need to update
+        var cartList     = document.getElementById("cart-list");
+        var emptyMsg     = document.getElementById("empty-msg");
+        var summaryBox   = document.getElementById("summary-box");
+        var checkoutBtn  = document.getElementById("checkout-btn");
         var checkoutForm = document.getElementById("checkout-form");
 
-        /* --- Check if the cart is empty --- */
+        // --- IMPORTANT: clear the list before rebuilding ---
+        // Without this, every call to renderCart() would ADD more
+        // items on top of the ones already shown on screen.
+        cartList.innerHTML = "";
+
+        // --------------------------------------------------------
+        // CASE 1: Cart is empty
+        // --------------------------------------------------------
         if (cart.length === 0) {
-          /* Show the "Your cart is empty" message */
+
+          // Show the "Your cart is empty" message
           emptyMsg.style.display = "block";
-          /* Hide the summary and checkout button */
+
+          // Hide the summary box, checkout button, and form
           summaryBox.style.display   = "none";
           checkoutBtn.style.display  = "none";
           checkoutForm.style.display = "none";
-          return; /* stop here, nothing more to do */
+
+          // Set all totals to $0.00 when cart is empty
+          document.getElementById("cart-subtotal").textContent = "$0.00";
+          document.getElementById("cart-shipping").textContent = "$0.00";
+          document.getElementById("cart-total").textContent    = "$0.00";
+
+          return; // stop here — nothing more to render
         }
 
-        /* --- Build the cart item list ---
-           We loop through every item in the cart array
-           and create one <li> element for each one. */
+        // --------------------------------------------------------
+        // CASE 2: Cart has items
+        // --------------------------------------------------------
 
-        var subtotal = 0; /* we will add to this as we loop */
+        // Make sure the summary, button, and form are visible
+        // (they may have been hidden if the cart was empty before)
+        emptyMsg.style.display     = "none";
+        summaryBox.style.display   = "";   // "" resets to CSS default (block)
+        checkoutBtn.style.display  = "";
+        checkoutForm.style.display = "";
 
+        var subtotal = 0; // running total — we add to this in the loop below
+
+        // Loop through every item in the cart and build one <li> for each
         for (var i = 0; i < cart.length; i++) {
           var item = cart[i];
 
-          /* Calculate the line total for this item (price × qty) */
+          // Line total = price × quantity for this product
           var lineTotal = item.price * item.qty;
 
-          /* Add this item's line total to the overall subtotal */
+          // Add this item's line total to the overall subtotal
           subtotal = subtotal + lineTotal;
 
-          /* Build the HTML for this cart item.
-             We use string concatenation (+) to build the HTML. */
+          /* Build the HTML for one cart item row.
+             Each row has:
+               - a placeholder image box
+               - the product name, quantity, and line total
+               - a Remove button
+
+             The Remove button uses onclick="handleRemove(item.id)"
+             so when it is clicked, handleRemove() receives the
+             correct product id to remove. */
+          /* item.id is the product number (0–6).
+             PRODUCTS[item.id].img is the image path stored in cart.js.
+             This way the right photo appears next to each item. */
           var itemHTML =
             '<li class="cart-item card">' +
-              '<div class="placeholder cart-thumb" aria-hidden="true">Image</div>' +
-              '<div>' +
+              '<img src="' + PRODUCTS[item.id].img + '" alt="' + item.name + '" class="cart-thumb product-img" />' +
+              '<div class="cart-item-info">' +
                 '<p class="product-name">' + item.name + '</p>' +
                 '<p class="muted">Qty ' + item.qty + '</p>' +
                 '<p class="price">$' + lineTotal.toFixed(2) + '</p>' +
               '</div>' +
+              '<button class="btn-remove" onclick="handleRemove(' + item.id + ')">' +
+                'Remove' +
+              '</button>' +
             '</li>';
 
-          /* Add this item to the <ul> on the page */
+          // Add this item's HTML into the <ul> list
           cartList.innerHTML = cartList.innerHTML + itemHTML;
         }
 
-        /* --- Calculate shipping and total ---
-           Shipping is always $11.00 (a fixed fee).
-           Total = subtotal + shipping. */
+        // Shipping is always $11.00 when there are items in the cart
         var SHIPPING = 11.00;
         var total = subtotal + SHIPPING;
 
-        /* --- Update the summary numbers on screen ---
-           .toFixed(2) formats the number to 2 decimal places.
-           e.g.  15 → "15.00" */
+        // Update the three numbers in the order summary box
+        // .toFixed(2) formats to 2 decimal places: e.g. 15 → "15.00"
         document.getElementById("cart-subtotal").textContent =
           "$" + subtotal.toFixed(2);
 
@@ -180,7 +222,38 @@
         document.getElementById("cart-total").textContent =
           "$" + total.toFixed(2);
 
-      }); /* end DOMContentLoaded */
+      } /* end renderCart() */
+
+
+      /* --- handleRemove(productId) ---
+         Called when the user clicks a "Remove" button.
+
+         This is the function that connects the button click to the
+         two things that need to happen:
+           Step 1 — Remove the item from localStorage.
+           Step 2 — Redraw the cart so the screen matches the data.
+
+         Tutor explanation:
+         "The Remove button passes the product id to handleRemove().
+          handleRemove() calls removeFromCart() (in cart.js) which
+          removes that item from the cart array in localStorage.
+          Then it calls renderCart() which clears the screen and
+          redraws the cart from the updated localStorage data.
+          The subtotal, shipping, and total are recalculated
+          automatically each time renderCart() runs." */
+      function handleRemove(productId) {
+        removeFromCart(productId); // defined in cart.js — updates localStorage + badge
+        renderCart();              // redraw the cart list and totals on screen
+      }
+
+
+      /* --- Run renderCart() when the page first loads ---
+         DOMContentLoaded fires once the HTML is fully parsed.
+         We call renderCart() to draw the initial cart state. */
+      document.addEventListener("DOMContentLoaded", function () {
+        renderCart();
+      });
+
     </script>
   </body>
 </html>
