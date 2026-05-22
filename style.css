@@ -597,34 +597,59 @@ body {
      rather than stamped directly onto it. This is a standard
      technique used in real apps (e.g. iOS notification badges). */
 .cart-count {
-  /* --- positioning: sits on top-right corner of the icon --- */
-  position: absolute;       /* floats over the icon, does not affect "C" */
-  top: -6px;                /* pops 6px above the top of the icon */
-  right: -6px;              /* pops 6px past the right edge of the icon */
+  /* --- POSITIONING ---
+     position:absolute takes the badge out of the normal page flow
+     so it floats on top of the icon without disturbing the "C" letter.
+     The parent .icon-btn has position:relative, so top/right are
+     measured from the icon's own edges.
 
-  /* --- size: large enough to read, small enough to look like a badge --- */
-  width: 18px;
-  height: 18px;
+     top:-4px  → badge pops 4px above the top of the 40px icon circle.
+     right:-4px → badge pops 4px past the right edge.
+     Together they anchor the badge firmly at the top-right corner,
+     mostly overlapping the icon (14 of 20px inside) rather than
+     floating away from it. */
+  position: absolute;
+  top: -2px;    /* reduced from -4px: badge now sits more ON the icon */
+  right: -2px;  /* reduced from -4px: less hanging outside the circle */
 
-  /* --- shape: perfect circle --- */
-  border-radius: 50%;
+  /* --- SIZE ---
+     20×20px badge on a 40px icon.
+     With top/right at -2px, 18 of the 20px overlaps the icon,
+     so the number is clearly visible on the brown circle. */
+  width: 20px;
+  height: 20px;
 
-  /* --- number centering inside the circle --- */
+  /* --- SHAPE --- */
+  border-radius: 50%;        /* makes it a perfect circle */
+
+  /* --- NUMBER CENTERING ---
+     display:flex with align-items and justify-content centres the
+     digit both vertically and horizontally inside the circle.
+
+     WHY Arial instead of Georgia:
+     The body font (Georgia) is a serif font. Serif digits have
+     uneven spacing above and below, so the number can look slightly
+     high or low inside a small circle even with flex centering.
+     Arial is a sans-serif font — its digits have more even spacing
+     and sit perfectly centred in a small circle. */
   display: flex;
-  align-items: center;      /* centres the number vertically */
-  justify-content: center;  /* centres the number horizontally */
+  align-items: center;       /* centres vertically */
+  justify-content: center;   /* centres horizontally */
+  font-family: Arial, sans-serif; /* sans-serif digits centre cleanly */
 
-  /* --- colours --- */
-  background: #4a3226;      /* dark brown, matches the button style */
-  color: #faf6ef;           /* light cream text for contrast */
+  /* --- COLOURS --- */
+  background: #5c3d2e;
+  color: #ffffff;
 
-  /* --- text --- */
-  font-size: 0.65rem;       /* slightly larger than before for readability */
-  font-weight: bold;
-  line-height: 1;           /* prevents font line-height from shifting number */
+  /* --- TEXT --- */
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;   /* prevents font line-height from pushing digit off-centre */
 
-  /* --- visual separation from the icon circle --- */
-  border: 2px solid #e8dcc8; /* matches page background — creates a gap ring */
+  /* --- SEPARATION RING ---
+     Matches the page background colour so the badge looks like
+     it floats above the icon rather than being stamped on it. */
+  border: 2.5px solid #e8dcc8;
 }
 
 /* --- CHECKOUT LINK BUTTON (cart.html) ---
