@@ -266,7 +266,7 @@ body {
     margin: 8px 0 14px;
     color: #3b2a20;
     padding-bottom: 8px;
-    border-bottom: 2px solid #d8cbb8; /* soft warm divider line */
+    border-bottom: 2.5px solid #8b7355; /* medium warm brown — more visible but still on-palette */
   }
   
   .page-title {
