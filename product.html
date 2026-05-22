@@ -42,39 +42,54 @@
            The JavaScript at the bottom of this page reads the ?id=
            from the URL and fills them in with the right product data. -->
 
-      <!-- Product title — filled in by JavaScript -->
-      <h1 class="page-title" id="detail-name">Loading...</h1>
+      <!-- PRODUCT DETAIL LAYOUT WRAPPER
+           On mobile this div has no effect — children stack normally.
+           On desktop the CSS media query makes this a two-column grid:
+           the product image goes in the left column, all product info
+           (title, description, price, quantity, add to cart) goes in
+           the right column. "You may also like" stays below, full-width. -->
+      <div class="product-detail-layout">
 
-      <!-- Product hero image — src and alt are set by JavaScript below
-           based on the ?id= in the URL, so the right image shows for
-           each product automatically. -->
-      <img id="detail-img" src="" alt="" class="product-hero product-img" />
+        <!-- LEFT COLUMN: product image -->
+        <div class="product-detail-img-col">
+          <img id="detail-img" src="" alt="" class="product-hero product-img" />
+        </div>
 
-      <!-- Description card — text filled in by JavaScript -->
-      <div class="card">
-        <h2 class="card-title">Description</h2>
-        <p class="body-text" id="detail-desc">Loading...</p>
-      </div>
+        <!-- RIGHT COLUMN: product info, filled in by JavaScript -->
+        <div class="product-detail-info-col">
 
-      <!-- Price card — price filled in by JavaScript -->
-      <div class="card price-card">
-        <p class="card-title">Price</p>
-        <p class="price price--large" id="detail-price">$0.00</p>
-      </div>
+          <!-- Product title — filled in by JavaScript -->
+          <h1 class="page-title" id="detail-name">Loading...</h1>
 
-      <!-- Quantity picker: + and - buttons change the number shown -->
-      <div class="qty-control">
-        <button type="button" class="qty-btn" id="btn-minus">−</button>
-        <span class="qty-display" id="qty-display">1</span>
-        <button type="button" class="qty-btn" id="btn-plus">+</button>
-      </div>
+          <!-- Description card -->
+          <div class="card">
+            <h2 class="card-title">Description</h2>
+            <p class="body-text" id="detail-desc">Loading...</p>
+          </div>
 
-      <!-- Add to cart button — calls addToCart() from cart.js -->
-      <button type="button" class="btn btn-primary btn-block" id="btn-add-cart">
-        Add to cart
-      </button>
+          <!-- Price card -->
+          <div class="card price-card">
+            <p class="card-title">Price</p>
+            <p class="price price--large" id="detail-price">$0.00</p>
+          </div>
 
-      <!-- "You may also like" section — links filled in by JavaScript -->
+          <!-- Quantity picker -->
+          <div class="qty-control">
+            <button type="button" class="qty-btn" id="btn-minus">−</button>
+            <span class="qty-display" id="qty-display">1</span>
+            <button type="button" class="qty-btn" id="btn-plus">+</button>
+          </div>
+
+          <!-- Add to cart button -->
+          <button type="button" class="btn btn-primary btn-block" id="btn-add-cart">
+            Add to cart
+          </button>
+
+        </div><!-- end .product-detail-info-col -->
+
+      </div><!-- end .product-detail-layout -->
+
+      <!-- "You may also like" — sits below the two-column layout, full width -->
       <h2 class="section-title">You may also like...</h2>
       <div class="suggest-grid" id="suggest-grid">
         <!-- Two suggestion cards are inserted here by JavaScript -->

@@ -36,73 +36,82 @@
       <!-- Back link -->
       <a href="listing.html" class="back-link">← Continue Shopping</a>
 
-      <h1 class="page-title">Your cart</h1>
+      <!-- CART LAYOUT WRAPPER
+           On mobile this div has no effect — children stack normally.
+           On desktop the CSS media query makes this a two-column grid:
+           cart items go in the left column, and the order summary +
+           checkout form go in the right column (id="cart-col-right").
 
-      <!-- CART ITEM LIST
-           This <ul> starts empty.
-           The JavaScript below reads the cart from localStorage
-           and creates one <li> for each item. -->
-      <ul class="cart-list" id="cart-list">
-        <!-- Items are inserted here by JavaScript -->
-      </ul>
+           The JavaScript below also hides/shows the right column depending
+           on whether the cart is empty, keeping the layout clean. -->
+      <div class="cart-layout">
 
-      <!-- MESSAGE shown when cart is empty.
-           UPDATED: Changed from a plain <p> to a <div> so we can include
-           a proper button inside it. The JavaScript still works exactly the
-           same way — it finds this element by id and shows/hides it using
-           style.display, which works on <div> just like <p>.
+        <!-- LEFT COLUMN: page title + cart items + empty message -->
+        <div class="cart-col-left">
 
-           The "Browse Products" button is .btn-primary so the user has a
-           clear, prominent next action when the cart is empty. -->
-      <div class="empty-cart-msg" id="empty-msg" style="display:none">
-        <p>Your cart is empty.</p>
-        <a href="listing.html" class="btn btn-primary btn-block">
-          Browse Products
-        </a>
-      </div>
+          <h1 class="page-title">Your cart</h1>
 
-      <!-- ORDER SUMMARY BOX
-           These values are calculated by JavaScript below. -->
-      <div class="card summary" id="summary-box">
-        <div class="summary-row">
-          <span>Subtotal</span>
-          <span id="cart-subtotal">$0.00</span>
-        </div>
-        <div class="summary-row">
-          <span>Shipping</span>
-          <!-- Shipping is always $11.00 (fixed) -->
-          <span id="cart-shipping">$11.00</span>
-        </div>
-        <div class="summary-row summary-row--total">
-          <span>Total</span>
-          <span id="cart-total">$0.00</span>
-        </div>
-      </div>
+          <!-- CART ITEM LIST — items added by JavaScript -->
+          <ul class="cart-list" id="cart-list">
+            <!-- Items are inserted here by JavaScript -->
+          </ul>
 
-      <!-- CHECKOUT BUTTON — links to confirmed.html (no JS needed)
-           .btn handles font/padding, .btn-primary handles colour,
-           .btn-block handles full-width + display:block + text-align:center,
-           .checkout-link handles the margin below (all defined in style.css) -->
-      <a href="confirmed.html" class="btn btn-primary btn-block checkout-link" id="checkout-btn">
-        Checkout
-      </a>
+          <!-- Shown when cart is empty -->
+          <div class="empty-cart-msg" id="empty-msg" style="display:none">
+            <p>Your cart is empty.</p>
+            <a href="listing.html" class="btn btn-primary btn-block">
+              Browse Products
+            </a>
+          </div>
 
-      <!-- CHECKOUT FORM -->
-      <form class="checkout-form card" id="checkout-form">
-        <h2 class="card-title">Checkout details</h2>
-        <label>
-          Full name
-          <input type="text" name="fullname" autocomplete="name" />
-        </label>
-        <label>
-          Address
-          <input type="text" name="address" autocomplete="street-address" />
-        </label>
-        <label>
-          Card number
-          <input type="text" name="card" inputmode="numeric" />
-        </label>
-      </form>
+        </div><!-- end .cart-col-left -->
+
+        <!-- RIGHT COLUMN: order summary + checkout button + form
+             id="cart-col-right" lets JavaScript hide this column
+             when the cart is empty, so the desktop layout stays clean. -->
+        <div class="cart-col-right" id="cart-col-right">
+
+          <!-- ORDER SUMMARY BOX -->
+          <div class="card summary" id="summary-box">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="cart-shipping">$11.00</span>
+            </div>
+            <div class="summary-row summary-row--total">
+              <span>Total</span>
+              <span id="cart-total">$0.00</span>
+            </div>
+          </div>
+
+          <!-- CHECKOUT BUTTON -->
+          <a href="confirmed.html" class="btn btn-primary btn-block checkout-link" id="checkout-btn">
+            Checkout
+          </a>
+
+          <!-- CHECKOUT FORM -->
+          <form class="checkout-form card" id="checkout-form">
+            <h2 class="card-title">Checkout details</h2>
+            <label>
+              Full name
+              <input type="text" name="fullname" autocomplete="name" />
+            </label>
+            <label>
+              Address
+              <input type="text" name="address" autocomplete="street-address" />
+            </label>
+            <label>
+              Card number
+              <input type="text" name="card" inputmode="numeric" />
+            </label>
+          </form>
+
+        </div><!-- end .cart-col-right -->
+
+      </div><!-- end .cart-layout -->
 
     </div><!-- end .app -->
 
@@ -151,9 +160,12 @@
         var checkoutBtn  = document.getElementById("checkout-btn");
         var checkoutForm = document.getElementById("checkout-form");
 
+        // cartColRight is the right column on desktop (summary + checkout).
+        // On mobile it just stacks below the items — hiding it when empty
+        // keeps the layout clean on both mobile and desktop.
+        var cartColRight = document.getElementById("cart-col-right");
+
         // --- IMPORTANT: clear the list before rebuilding ---
-        // Without this, every call to renderCart() would ADD more
-        // items on top of the ones already shown on screen.
         cartList.innerHTML = "";
 
         // --------------------------------------------------------
@@ -169,6 +181,10 @@
           checkoutBtn.style.display  = "none";
           checkoutForm.style.display = "none";
 
+          // Also hide the entire right column on desktop so we don't
+          // show a blank column next to the empty-cart message.
+          if (cartColRight) { cartColRight.style.display = "none"; }
+
           // Set all totals to $0.00 when cart is empty
           document.getElementById("cart-subtotal").textContent = "$0.00";
           document.getElementById("cart-shipping").textContent = "$0.00";
@@ -181,12 +197,14 @@
         // CASE 2: Cart has items
         // --------------------------------------------------------
 
-        // Make sure the summary, button, and form are visible
-        // (they may have been hidden if the cart was empty before)
+        // Make sure the summary, button, form, and right column are all visible.
         emptyMsg.style.display     = "none";
         summaryBox.style.display   = "";   // "" resets to CSS default (block)
         checkoutBtn.style.display  = "";
         checkoutForm.style.display = "";
+
+        // Show the right column (it may have been hidden if cart was empty before)
+        if (cartColRight) { cartColRight.style.display = ""; }
 
         var subtotal = 0; // running total — we add to this in the loop below
 

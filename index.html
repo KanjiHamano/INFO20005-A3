@@ -77,22 +77,30 @@
         <span class="chip">Paintings</span>
       </div>
 
-      <!-- Hero card: main banner with a "Shop now" link -->
-      <div class="hero card">
-        <h1>Handcrafted Australian gifts</h1>
-        <p class="hero-text">
-          Discover artisan-made pieces for meaningful gifting
-        </p>
-        <!-- "Shop now" is now a plain HTML link — no JavaScript needed -->
-        <a href="listing.html" class="btn btn-primary">Shop now</a>
-      </div>
+      <!-- HERO SECTION WRAPPER
+           On mobile this div has no effect — children stack normally.
+           On desktop the CSS media query turns this into a two-column grid:
+           the hero text card sits on the left, the image on the right.
+           This is controlled entirely by CSS — no JavaScript needed. -->
+      <div class="hero-section">
 
-      <!-- Hero banner image -->
-      <img
-        src="images/hero-gifts.jpg"
-        alt="Handcrafted Australian gifts arranged on a table"
-        class="hero-image product-img"
-      />
+        <!-- Hero card: main banner with a "Shop now" link -->
+        <div class="hero card">
+          <h1>Handcrafted Australian gifts</h1>
+          <p class="hero-text">
+            Discover artisan-made pieces for meaningful gifting
+          </p>
+          <a href="listing.html" class="btn btn-primary">Shop now</a>
+        </div>
+
+        <!-- Hero banner image -->
+        <img
+          src="images/hero-gifts.jpg"
+          alt="Handcrafted Australian gifts arranged on a table"
+          class="hero-image product-img"
+        />
+
+      </div><!-- end .hero-section -->
 
       <h2 class="section-title">Featured Products</h2>
 

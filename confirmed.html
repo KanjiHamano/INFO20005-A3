@@ -34,54 +34,47 @@
         </div>
       </header>
 
-      <!-- Confirmation checkmark icon -->
-      <div class="confirmed-icon">✔</div>
+      <!-- CONFIRMED CONTENT WRAPPER
+           On mobile this div has no effect — content stacks normally.
+           On desktop the CSS media query centres this in a 640px column
+           so the confirmation page does not stretch across the full
+           1280px desktop width. -->
+      <div class="confirmed-content">
 
-      <!-- HIERARCHY: page-title gets extra emphasis on this page via
-           text-align:center and a slightly increased bottom margin.
-           The heading is the first thing the user reads after checkout. -->
-      <h1 class="page-title confirmed-heading">Order Confirmed</h1>
+        <!-- Confirmation checkmark icon -->
+        <div class="confirmed-icon">✔</div>
 
-      <p class="body-text" style="text-align:center; margin-bottom:20px;">
-        Thank you for your purchase. Your order has been received successfully.
-      </p>
+        <h1 class="page-title confirmed-heading">Order Confirmed</h1>
 
-      <!-- ORDER SUMMARY CARD
-           The total is filled in by JavaScript from localStorage. -->
-      <div class="card">
-        <p class="muted">Order number</p>
-        <p class="emphasis">#ABD1008</p>
-        <p class="muted">Date</p>
-        <p id="order-date">—</p>
-        <p class="muted" style="margin-top:8px;">Total</p>
-        <p class="price price--large" id="confirmed-total">$0.00</p>
-      </div>
+        <p class="body-text" style="text-align:center; margin-bottom:20px;">
+          Thank you for your purchase. Your order has been received successfully.
+        </p>
 
-      <!-- ORDERED ITEMS LIST
-           The JavaScript below reads the cart from localStorage
-           and displays each item here before clearing the cart. -->
-      <h2 class="section-title" id="ordered-items-heading">Ordered items</h2>
-      <ul class="order-list" id="order-list">
-        <!-- Items inserted by JavaScript -->
-      </ul>
+        <!-- ORDER SUMMARY CARD -->
+        <div class="card">
+          <p class="muted">Order number</p>
+          <p class="emphasis">#ABD1008</p>
+          <p class="muted">Date</p>
+          <p id="order-date">—</p>
+          <p class="muted" style="margin-top:8px;">Total</p>
+          <p class="price price--large" id="confirmed-total">$0.00</p>
+        </div>
 
-      <!-- BUTTONS
-           HIERARCHY FIX: "Continue Shopping" is now the PRIMARY button because
-           it is the most important next action — it takes the user back into the
-           shop. "View Order" is SECONDARY because it just scrolls the same page.
+        <!-- ORDERED ITEMS LIST -->
+        <h2 class="section-title" id="ordered-items-heading">Ordered items</h2>
+        <ul class="order-list" id="order-list">
+          <!-- Items inserted by JavaScript -->
+        </ul>
 
-           Before the fix: "View Order" was dark-brown primary, "Continue Shopping"
-           was outline — which was backwards. The user's most important journey
-           (back to shopping) was harder to see than a scroll action.
+        <!-- BUTTONS -->
+        <div class="btn-row">
+          <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+          <button type="button" class="btn btn-secondary" id="btn-view-order">
+            View Order
+          </button>
+        </div>
 
-           .btn-primary = dark brown filled = most important
-           .btn-secondary = warm beige outlined = less important -->
-      <div class="btn-row">
-        <a href="index.html" class="btn btn-primary">Continue Shopping</a>
-        <button type="button" class="btn btn-secondary" id="btn-view-order">
-          View Order
-        </button>
-      </div>
+      </div><!-- end .confirmed-content -->
 
     </div><!-- end .app -->
 

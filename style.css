@@ -886,6 +886,210 @@ body {
 }
 
 /* ============================================================
+   DESKTOP RESPONSIVE STYLES
+   All rules below only apply when the screen is 900px or wider.
+   The mobile styles above stay completely unchanged.
+   This approach is called "mobile-first responsive design":
+   write base styles for mobile, then use media queries to add
+   desktop-specific overrides on top.
+   ============================================================ */
+
+@media (min-width: 900px) {
+
+  /* ---- GLOBAL CONTAINER ----
+     On mobile, .app is limited to 430px.
+     On desktop we open it up to 1280px so the content fills the screen,
+     and add larger side padding so content does not touch the edges. */
+  .app {
+    max-width: 1280px;
+    padding: 28px 48px 56px;
+  }
+
+  /* ---- HEADER ----
+     Larger logo and slightly bigger icon buttons on desktop. */
+  .site-logo {
+    height: 50px;
+  }
+
+  .icon-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 0.9rem;
+  }
+
+  /* ---- SEARCH BAR ---- */
+  .search-input {
+    padding: 13px 18px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  /* ---- FILTER PILLS (listing.html) ---- */
+  .filter-row {
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .filter-pill {
+    padding: 10px 22px;
+    font-size: 0.92rem;
+  }
+
+  /* ---- HOME: hero section — side by side ----
+     On mobile the hero card and hero image stack vertically.
+     On desktop they sit side-by-side in a two-column grid.
+     The .hero-section wrapper div (added to index.html) enables this. */
+  .hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* left: text card, right: image */
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  /* Inside the grid, remove the bottom margin the card normally adds
+     so the card and image align cleanly without extra space below. */
+  .hero-section .hero.card {
+    margin-bottom: 0;
+    padding: 32px 28px 36px;
+  }
+
+  .hero-section .hero-image {
+    height: 300px;    /* taller on desktop */
+    margin-bottom: 0;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  /* ---- HOME: featured product rows ----
+     Give them more breathing room on desktop. */
+  .product-row {
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .product-row .thumb,
+  .product-row .thumb.product-img {
+    width: 110px;
+    height: 110px;
+  }
+
+  /* ---- LISTING: 3-column product grid ----
+     Mobile uses 2 columns. Desktop uses 3 columns with more gap.
+     grid-template-columns: repeat(3, 1fr) creates three equal columns. */
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* Taller product images in the 3-column grid. */
+  .grid-img,
+  .grid-img.product-img {
+    height: 180px;
+  }
+
+  .grid-card {
+    padding: 16px;
+  }
+
+  .grid-card .btn {
+    font-size: 0.88rem;
+    padding: 9px 10px;
+  }
+
+  /* ---- PRODUCT DETAIL: two-column layout ----
+     On mobile the image stacks above the info.
+     On desktop they sit side by side: image on the left, info on the right.
+     The .product-detail-layout wrapper div (added to product.html) enables this. */
+  .product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* left: image, right: info */
+    gap: 48px;
+    align-items: start;               /* align tops, not centres */
+    margin-bottom: 36px;
+  }
+
+  /* Make the product hero image fill the left column and be taller. */
+  .product-detail-img-col .product-hero {
+    height: 420px;
+    margin-bottom: 0;
+  }
+
+  /* Suggestions grid: a little more gap on desktop. */
+  .suggest-grid {
+    gap: 20px;
+  }
+
+  /* ---- CART: two-column layout ----
+     On mobile the cart items and the checkout summary stack vertically.
+     On desktop the cart items go on the left, and the checkout summary
+     + form go on the right.
+     The .cart-layout wrapper div (added to cart.html) enables this.
+     1.2fr means the left column is slightly wider than the right (0.9fr). */
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* Larger cart thumbnail images on desktop. */
+  .cart-thumb,
+  .cart-thumb.product-img {
+    width: 72px;
+    height: 72px;
+  }
+
+  /* ---- CONFIRMATION: centered narrower layout ----
+     The confirmation page content is centered in a 640px column
+     so it does not stretch uncomfortably across the wide desktop screen.
+     The .confirmed-content wrapper div (added to confirmed.html) enables this. */
+  .confirmed-content {
+    max-width: 640px;
+    margin: 0 auto;       /* centres the column inside the wide .app */
+  }
+
+  .confirmed-heading {
+    font-size: 1.7rem;
+  }
+
+  .confirmed-icon {
+    font-size: 3.5rem;
+  }
+
+  /* ---- GENERAL SPACING IMPROVEMENTS ON DESKTOP ---- */
+  .page-title {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  /* Back link pill slightly larger on desktop. */
+  .back-link {
+    font-size: 0.92rem;
+    padding: 8px 18px;
+    margin-bottom: 18px;
+  }
+
+} /* end @media (min-width: 900px) */
+
+
+/* ============================================================
    VISUAL HIERARCHY IMPROVEMENTS — added for Assignment 2
    ============================================================ */
 
