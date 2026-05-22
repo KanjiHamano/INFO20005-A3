@@ -11,16 +11,49 @@
     <!-- .app centres the content and limits it to phone width -->
     <div class="app">
 
-      <!-- HEADER: appears on every page.
-           The cart icon is a normal HTML link to cart.html -->
+      <!-- HEADER: appears on every page -->
       <header class="site-header">
-        <p class="logo">AUSTRALIAN BY DESIGN</p>
+
+        <!-- LOGO: was plain text "AUSTRALIAN BY DESIGN".
+             Now a clickable image linking back to the home page.
+             Save the logo image as: images/australian-by-design-logo.png
+             Download from: https://www.australianbydesign.com.au/wp-content/uploads/2020/12/logo-hd.png -->
+        <a class="logo-link" href="index.html">
+          <img
+            src="images/australian-by-design-logo.png"
+            alt="Australian by Design logo"
+            class="site-logo"
+          />
+        </a>
+
         <div class="header-actions">
-          <button type="button" class="icon-btn" aria-label="Account">A</button>
-          <!-- Clicking this link navigates to cart.html (no JavaScript needed) -->
+
+          <!-- ACCOUNT ICON: was the letter "A".
+               Now a simple person-silhouette SVG drawn directly in HTML.
+               No icon library needed — it is just two shapes: a circle (head)
+               and a curved path (body). stroke="currentColor" draws it in
+               the same dark brown as the circular button. -->
+          <button type="button" class="icon-btn" aria-label="Account">
+            <svg class="account-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+
+          <!-- CART ICON: was the letter "C".
+               Now a shopping-cart SVG drawn directly in HTML.
+               No icon library needed — it is two small circles (wheels)
+               and one path (basket). The badge number still appears in
+               the top-right corner, exactly as before. -->
           <a href="cart.html" class="icon-btn" aria-label="Cart">
-            C<span id="cart-badge" class="cart-count" style="display:none"></span>
+            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span id="cart-badge" class="cart-count" style="display:none"></span>
           </a>
+
         </div>
       </header>
 

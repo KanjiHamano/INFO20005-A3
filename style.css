@@ -57,11 +57,27 @@ body {
   margin-bottom: 12px;
 }
 
-.logo {
-  margin: 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
+/* --- LOGO LINK ---
+   The logo is now a clickable <a> tag wrapping an <img>.
+   flex: 1 makes the link expand to fill the space between the
+   left edge and the header icons, just like the old text did.
+   align-items: center keeps the logo vertically centred in the header. */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex: 1;           /* take all available space left of the icon buttons */
+}
+
+/* --- LOGO IMAGE ---
+   height: 36px matches the 40px icon buttons with a small breathing gap.
+   width: auto keeps the logo's natural proportions — never stretch it.
+   object-fit: contain ensures the whole logo is visible without cropping. */
+.site-logo {
+  height: 36px;
+  width: auto;
+  display: block;    /* removes the small gap browsers add under inline images */
+  object-fit: contain;
 }
 
 .header-actions {
@@ -108,6 +124,29 @@ body {
 
 .icon-btn:active {
   transform: scale(0.98);
+}
+
+/* --- CART AND ACCOUNT SVG ICONS ---
+   These are inline SVG shapes drawn directly in the HTML.
+   No icon library is needed — the shapes are just paths and circles.
+
+   stroke: currentColor tells the SVG to draw in whatever colour
+   the parent element uses. Because .icon-btn has color: #3b2a20
+   (dark brown), the icon automatically draws in dark brown.
+   This means we never need to hardcode a colour in the SVG itself.
+
+   fill: none means the inside of the shapes is transparent —
+   only the outline (stroke) is drawn, giving a clean line-icon look.
+
+   width/height: 20px makes the icon sit comfortably inside
+   the 40px circular button with 10px of space on each side. */
+.cart-icon,
+.account-icon {
+  width: 20px;
+  height: 20px;
+  display: block;      /* removes the gap browsers add under inline SVGs */
+  stroke: currentColor;
+  fill: none;
 }
 
 /* Grey Browse Categories bar */
