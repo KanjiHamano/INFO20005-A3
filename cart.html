@@ -46,10 +46,20 @@
         <!-- Items are inserted here by JavaScript -->
       </ul>
 
-      <!-- MESSAGE shown when cart is empty -->
-      <p class="empty-cart-msg" id="empty-msg" style="display:none">
-        Your cart is empty. <a href="listing.html">Shop now</a>
-      </p>
+      <!-- MESSAGE shown when cart is empty.
+           UPDATED: Changed from a plain <p> to a <div> so we can include
+           a proper button inside it. The JavaScript still works exactly the
+           same way — it finds this element by id and shows/hides it using
+           style.display, which works on <div> just like <p>.
+
+           The "Browse Products" button is .btn-primary so the user has a
+           clear, prominent next action when the cart is empty. -->
+      <div class="empty-cart-msg" id="empty-msg" style="display:none">
+        <p>Your cart is empty.</p>
+        <a href="listing.html" class="btn btn-primary btn-block">
+          Browse Products
+        </a>
+      </div>
 
       <!-- ORDER SUMMARY BOX
            These values are calculated by JavaScript below. -->

@@ -256,10 +256,17 @@ body {
     flex-shrink: 0;
   }
   
-  /* ---------- Headings ---------- */
+  /* ---------- Section title (e.g. "Featured Products", "You may also like") ----------
+     UPDATED: Bold heading with a subtle bottom border line as a section separator.
+     No background card — keeps the heading clean and lightweight.
+     The bottom border gives visual structure without adding heavy decoration. */
   .section-title {
     font-size: 1.1rem;
-    margin: 8px 0 12px;
+    font-weight: 700;
+    margin: 8px 0 14px;
+    color: #3b2a20;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #d8cbb8; /* soft warm divider line */
   }
   
   .page-title {
@@ -280,15 +287,39 @@ body {
     text-align: center;
   }
   
+  /* --- PRIMARY BUTTON ---
+     The most important action on any page (e.g. "Add to cart", "Checkout",
+     "Continue Shopping" on the confirmation page).
+     font-weight:700 makes the label bold so it stands out at a glance.
+     letter-spacing:0.03em gives the text a slightly airy, premium feel. */
   .btn-primary {
-    background: #4a3226;
-    color: #faf6ef;
+    background: #4a3226;      /* dark brown fill */
+    color: #faf6ef;           /* warm white text */
+    font-weight: 700;         /* bold label — signals importance */
+    letter-spacing: 0.03em;
   }
-  
+
+  /* --- SECONDARY BUTTON ---
+     NEW CLASS. Used for actions that matter but are less urgent than primary
+     (e.g. "View Order" on the confirmation page, "View" on product cards).
+     A warm beige background keeps it in the site palette but clearly
+     lower in priority than the dark .btn-primary. */
+  .btn-secondary {
+    background: #f3eadc;      /* warm beige — lighter than primary */
+    color: #4a3226;           /* same dark brown text */
+    border: 2px solid #4a3226;
+    font-weight: 600;
+  }
+
+  /* --- OUTLINE BUTTON ---
+     Least important interactive actions (e.g. "View" in the product grid,
+     small navigation links styled as buttons).
+     Transparent background keeps it visually light. */
   .btn-outline {
     background: transparent;
     color: #4a3226;
     border: 2px solid #4a3226;
+    font-weight: 600;
   }
   
   /* FIX: Added display:block to .btn-block.
@@ -493,25 +524,34 @@ body {
   }
 
   /* --- REMOVE BUTTON ---
-     Styled as a plain underlined text link rather than a filled button.
-     This keeps it visually light so it does not compete with "Checkout".
-     The muted red-brown colour signals a destructive action (deleting)
-     without being aggressive. */
+     UPDATED: Changed from a plain underlined text link to a small outlined
+     button. This makes it clearly visible inside each cart item, so the user
+     can find it easily, while still being secondary to the main "Checkout"
+     button (which is a filled dark-brown primary button).
+
+     WHY OUTLINED NOT FILLED:
+     An outlined border with no fill is the standard way to show a button is
+     "destructive but secondary". The red-brown colour communicates "this
+     removes something" without being alarming. Checkout stays dominant
+     because it is full-width and filled dark brown. */
   .btn-remove {
-    background: none;           /* no background fill */
-    border: none;               /* no border box */
-    color: #8b3a3a;             /* muted red-brown — signals "delete" */
-    font-size: 0.8rem;
-    font-family: inherit;       /* match the rest of the page */
+    background: transparent;         /* no fill — keeps it secondary */
+    border: 1.5px solid #8b3a3a;     /* red-brown outline — signals delete */
+    color: #8b3a3a;
+    font-size: 0.78rem;
+    font-family: inherit;
     cursor: pointer;
-    padding: 4px 0;
-    text-decoration: underline; /* looks like a text link */
-    flex-shrink: 0;             /* prevent button from being squished */
-    white-space: nowrap;        /* keep "Remove" on one line */
+    padding: 5px 11px;               /* enough padding to be tappable */
+    border-radius: 8px;              /* rounded corners match site style */
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    text-decoration: none;           /* no underline — it's a button now */
   }
 
   .btn-remove:hover {
-    color: #5c1a1a;             /* darker red-brown on hover */
+    background: #8b3a3a;             /* fill on hover for clear feedback */
+    color: #faf6ef;
   }
   
   .muted {
@@ -527,12 +567,17 @@ body {
     font-size: 1rem;
   }
   
+  /* --- ORDER TOTAL ROW ---
+     UPDATED: Increased font-size from 1.1rem to 1.2rem and added a deeper
+     text colour so the Total stands out from Subtotal and Shipping.
+     The user's eye should land on "Total" first when scanning the summary card. */
   .summary-row--total {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid #d8cbb8;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.2rem;         /* bigger than subtotal/shipping rows */
+    color: #3b2a20;            /* full dark brown — highest contrast in the card */
   }
   
   /* ---------- チェックアウトフォーム ---------- */
@@ -599,18 +644,39 @@ body {
    ============================================================ */
 
 /* --- BACK LINK ---
-   A simple text link that takes you back to the previous page.
-   Used at the top of product.html */
+   UPDATED: Changed from a plain text link to a small pill-shaped outlined
+   button. This makes navigation actions like "← Continue Shopping" and
+   "← All Products" clearly visible and tappable on mobile.
+
+   WHY A PILL SHAPE:
+   border-radius:999px creates a fully rounded "pill" — a common pattern
+   for navigation chips in mobile apps. It looks different from the
+   rectangular card buttons, so the user knows it is for navigation.
+
+   WHY NOT DARK-FILLED:
+   The top-of-page back links are secondary to the main page action
+   (e.g. "Add to cart" below). Keeping them outlined lets the primary
+   action remain dominant while still being clearly visible. */
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: #4a3226;
   text-decoration: none;
-  font-size: 0.95rem;
-  margin-bottom: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  padding: 7px 16px;
+  border: 1.5px solid #4a3226;
+  border-radius: 999px;       /* pill shape */
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .back-link:hover {
-  text-decoration: underline;
+  background: #4a3226;        /* fill on hover */
+  color: #faf6ef;
+  text-decoration: none;
 }
 
 /* --- QUANTITY CONTROLS ---
@@ -725,21 +791,43 @@ body {
 }
 
 /* --- CHECKOUT LINK BUTTON (cart.html) ---
-   Adds bottom margin below the "Checkout" link-button
-   so there is breathing room between it and the form below.
-   This replaces the inline style="margin-bottom:16px" that was
-   previously written directly on the <a> tag in cart.html. */
+   UPDATED: The Checkout button is the most important action on the cart page.
+   A slightly larger font and taller padding make it unmistakably the primary
+   call-to-action, clearly above the "Remove" buttons and the back link.
+   margin-bottom gives breathing room between it and the form below. */
 .checkout-link {
   margin-bottom: 16px;
+  font-size: 1.05rem;         /* slightly larger than other buttons */
+  padding: 14px 18px;         /* taller tap target */
+  letter-spacing: 0.04em;
 }
 
 /* --- EMPTY CART MESSAGE ---
-   Shown on cart.html when nothing has been added yet */
+   UPDATED: Shown on cart.html when nothing has been added yet.
+   Now contains a heading-like text and a "Browse Products" button,
+   so the user has a clear next action rather than just seeing text.
+   padding-bottom:8px gives space between the text and the button
+   without over-inflating the section. */
 .empty-cart-msg {
   text-align: center;
-  padding: 40px 16px;
+  padding: 32px 16px 8px;
   color: #6b5b4d;
   font-size: 1rem;
+}
+
+.empty-cart-msg p {
+  margin: 0 0 20px;           /* space between text and button */
+  font-size: 1.05rem;
+}
+
+/* --- CONFIRMED PAGE — ORDER TOTAL ---
+   Makes the grand total on the confirmation page larger and darker
+   so it catches the eye immediately after checkout. */
+#confirmed-total {
+  font-size: 1.6rem;          /* bigger than the default price--large */
+  font-weight: 700;
+  color: #3b2a20;
+  margin-top: 4px;
 }
 
 /* --- ORDER CONFIRMED CHECKMARK ---
@@ -795,4 +883,24 @@ body {
 
 .toast.show {
   opacity: 1;
+}
+
+/* ============================================================
+   VISUAL HIERARCHY IMPROVEMENTS — added for Assignment 2
+   ============================================================ */
+
+/* --- CONFIRMATION PAGE HEADING ---
+   Makes "Order Confirmed" text centred and slightly larger than a normal
+   page-title, so it's the first thing the eye lands on after checkout. */
+.confirmed-heading {
+  text-align: center;
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+}
+
+/* --- CONFIRMED PAGE CHECKMARK ---
+   The ✔ icon is already 3rem. Adding the dark brown colour makes it
+   match the brand and look intentional rather than a default browser emoji. */
+.confirmed-icon {
+  color: #4a3226;
 }

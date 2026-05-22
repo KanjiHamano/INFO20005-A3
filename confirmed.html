@@ -37,7 +37,10 @@
       <!-- Confirmation checkmark icon -->
       <div class="confirmed-icon">✔</div>
 
-      <h1 class="page-title" style="text-align:center;">Order Confirmed</h1>
+      <!-- HIERARCHY: page-title gets extra emphasis on this page via
+           text-align:center and a slightly increased bottom margin.
+           The heading is the first thing the user reads after checkout. -->
+      <h1 class="page-title confirmed-heading">Order Confirmed</h1>
 
       <p class="body-text" style="text-align:center; margin-bottom:20px;">
         Thank you for your purchase. Your order has been received successfully.
@@ -62,12 +65,20 @@
         <!-- Items inserted by JavaScript -->
       </ul>
 
-      <!-- BUTTONS -->
+      <!-- BUTTONS
+           HIERARCHY FIX: "Continue Shopping" is now the PRIMARY button because
+           it is the most important next action — it takes the user back into the
+           shop. "View Order" is SECONDARY because it just scrolls the same page.
+
+           Before the fix: "View Order" was dark-brown primary, "Continue Shopping"
+           was outline — which was backwards. The user's most important journey
+           (back to shopping) was harder to see than a scroll action.
+
+           .btn-primary = dark brown filled = most important
+           .btn-secondary = warm beige outlined = less important -->
       <div class="btn-row">
-        <!-- "Continue Shopping" is a plain HTML link — no JavaScript needed -->
-        <a href="index.html" class="btn btn-outline">Continue Shopping</a>
-        <!-- "View Order" scrolls down to the ordered items list -->
-        <button type="button" class="btn btn-primary" id="btn-view-order">
+        <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+        <button type="button" class="btn btn-secondary" id="btn-view-order">
           View Order
         </button>
       </div>
