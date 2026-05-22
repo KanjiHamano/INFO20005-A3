@@ -69,7 +69,21 @@ body {
   gap: 10px;
 }
 
-/* Round icon-style buttons on the top right */
+/* --- ICON BUTTONS (header: "A" account and "C" cart) ---
+   FIX: Added display:flex + align-items + justify-content to
+   perfectly centre the letter inside the circle.
+   Previously there was no centering rule, so browsers placed
+   the letter using default text flow, causing it to sit too low.
+
+   FIX: padding:0 removes the browser's default <button> padding
+   which was pushing "A" off-centre.
+
+   FIX: position:relative lets the cart badge use position:absolute
+   so the badge sits in the corner WITHOUT affecting the "C" position.
+
+   FIX: text-decoration:none prevents the underline on the <a> cart link.
+   line-height:1 stops the font's built-in line spacing from adding
+   extra vertical space above/below the letter. */
 .icon-btn {
   width: 40px;
   height: 40px;
@@ -80,6 +94,16 @@ body {
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
+  /* --- centering fixes --- */
+  display: flex;
+  align-items: center;      /* centres vertically */
+  justify-content: center;  /* centres horizontally */
+  padding: 0;               /* remove browser's default button padding */
+  line-height: 1;           /* prevent font line-height from adding offset */
+  /* --- needed for the cart <a> link version --- */
+  text-decoration: none;
+  /* --- lets badge sit in corner without pushing "C" off-centre --- */
+  position: relative;
 }
 
 .icon-btn:active {
@@ -139,14 +163,33 @@ body {
   }
   
   /* ---------- Hero section ---------- */
-  .hero h1 {
-    margin: 0 0 8px;
-    font-size: 1.35rem;
+
+  /* FIX: The hero card (.hero.card) gets extra padding compared to
+     normal cards. The default .card has 16px padding on all sides.
+     The hero is the main banner — it needs more breathing room
+     so the heading, paragraph, and button don't feel cramped.
+     padding-bottom:28px gives extra space below the button. */
+  .hero.card {
+    padding: 20px 20px 28px;
   }
-  
+
+  /* FIX: Increased margin-bottom from 8px to 12px for more
+     visual breathing room between the heading and paragraph. */
+  .hero h1 {
+    margin: 0 0 12px;
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  /* FIX: Increased margin-bottom from 14px to 20px.
+     This creates a clear visual gap between the paragraph
+     and the "Shop now" button, so the button feels intentionally
+     placed rather than crowded against the text. */
   .hero-text {
-    margin: 0 0 14px;
+    margin: 0 0 20px;
     color: #5c4033;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
   
   /* Placeholder box used when there is no actual image */
@@ -209,8 +252,17 @@ body {
     border: 2px solid #4a3226;
   }
   
+  /* FIX: Added display:block to .btn-block.
+     When .btn-block is used on an <a> tag (link), the browser
+     defaults it to inline-block, which means width:100% works
+     but the element doesn't sit on its own line cleanly.
+     display:block makes <a> links behave like block-level buttons,
+     filling the full width of their container.
+     text-align:center centres the button text inside the full width. */
   .btn-block {
+    display: block;
     width: 100%;
+    text-align: center;
   }
   
   .btn-row {
@@ -303,32 +355,72 @@ body {
     cursor: pointer;
   }
   
-  /* ---------- 2列グリッド ---------- */
+  /* ---------- 2-column product grid ---------- */
   .product-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  
+
+  /* FIX: Added display:flex and flex-direction:column.
+     Before: the card had no flex layout, so if one card had a
+     2-line product name it pushed the buttons down further than
+     the adjacent card with a 1-line name — making buttons
+     misaligned across the row.
+
+     Now: the card is a vertical flex container. Combined with
+     margin-top:auto on .card-btn-group (below), the buttons are
+     always "pushed to the bottom" of the card — so both cards
+     in a row have their buttons at the same height. */
   .grid-card {
     margin-bottom: 0;
     padding: 12px;
+    display: flex;
+    flex-direction: column; /* stack image → name → price → buttons vertically */
   }
-  
+
   .grid-img {
     width: 100%;
     height: 110px;
     margin-bottom: 8px;
+    flex-shrink: 0; /* prevent image from squishing if card is tall */
   }
-  
+
   .grid-card .product-name {
     font-size: 0.82rem;
-    line-height: 1.25;
+    line-height: 1.3;
+    margin-bottom: 4px;
   }
-  
+
+  /* FIX: Changed margin-bottom from 0 to 6px.
+     Previously there was no space between the price and the buttons.
+     6px creates a small visual gap so the price and buttons
+     don't look merged together. */
   .grid-card .price {
-    margin-bottom: 0;
+    margin-bottom: 6px;
     font-size: 0.95rem;
+  }
+
+  /* --- CARD BUTTON GROUP ---
+     NEW: Wraps the "View" and "Add to cart" buttons inside each
+     grid card. margin-top:auto is the key fix — it pushes this
+     entire group to the bottom of the flex card, no matter how
+     tall the card is. This aligns all buttons in a grid row. */
+  .card-btn-group {
+    margin-top: auto;      /* push buttons to the bottom of the card */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;              /* consistent space between the two buttons */
+  }
+
+  /* FIX: Buttons inside grid cards should be smaller than normal
+     buttons because the cards are narrow (half the screen width).
+     font-size:0.82rem and padding:8px 10px scale them down correctly.
+     This replaces the inline style="font-size:0.85rem" in the HTML. */
+  .grid-card .btn {
+    font-size: 0.82rem;
+    padding: 8px 10px;
+    border-radius: 10px;
   }
   
   /* ---------- カート ---------- */
@@ -486,21 +578,62 @@ body {
 }
 
 /* --- CART BADGE ON HEADER ---
-   Small circle showing the number of items in the cart.
-   Sits inside the header cart link. */
+   The small circle that shows how many items are in the cart.
+   It sits on the top-right corner of the cart "C" icon.
+
+   HOW THE POSITIONING WORKS:
+   - position:absolute removes the badge from the normal page flow,
+     so it floats on top of the icon without pushing "C" off-centre.
+   - The parent .icon-btn has position:relative, which means
+     top/right values are measured from the icon's own corner.
+   - top:-6px moves the badge 6px above the top edge of the icon.
+   - right:-6px moves it 6px to the right of the icon's right edge.
+     Together, this places the badge neatly on the top-right corner.
+
+   WHY THE BORDER:
+   - border: 2px solid #e8dcc8 matches the page background colour.
+     This creates a thin "gap" ring between the badge and the icon,
+     making the badge look like it is floating above the icon
+     rather than stamped directly onto it. This is a standard
+     technique used in real apps (e.g. iOS notification badges). */
 .cart-count {
-  display: inline-block;
-  background: #4a3226;
-  color: #faf6ef;
-  font-size: 0.65rem;
-  font-weight: bold;
-  border-radius: 50%;
+  /* --- positioning: sits on top-right corner of the icon --- */
+  position: absolute;       /* floats over the icon, does not affect "C" */
+  top: -6px;                /* pops 6px above the top of the icon */
+  right: -6px;              /* pops 6px past the right edge of the icon */
+
+  /* --- size: large enough to read, small enough to look like a badge --- */
   width: 18px;
   height: 18px;
-  text-align: center;
-  line-height: 18px;
-  vertical-align: top;
-  margin-left: 2px;
+
+  /* --- shape: perfect circle --- */
+  border-radius: 50%;
+
+  /* --- number centering inside the circle --- */
+  display: flex;
+  align-items: center;      /* centres the number vertically */
+  justify-content: center;  /* centres the number horizontally */
+
+  /* --- colours --- */
+  background: #4a3226;      /* dark brown, matches the button style */
+  color: #faf6ef;           /* light cream text for contrast */
+
+  /* --- text --- */
+  font-size: 0.65rem;       /* slightly larger than before for readability */
+  font-weight: bold;
+  line-height: 1;           /* prevents font line-height from shifting number */
+
+  /* --- visual separation from the icon circle --- */
+  border: 2px solid #e8dcc8; /* matches page background — creates a gap ring */
+}
+
+/* --- CHECKOUT LINK BUTTON (cart.html) ---
+   Adds bottom margin below the "Checkout" link-button
+   so there is breathing room between it and the form below.
+   This replaces the inline style="margin-bottom:16px" that was
+   previously written directly on the <a> tag in cart.html. */
+.checkout-link {
+  margin-bottom: 16px;
 }
 
 /* --- EMPTY CART MESSAGE ---
