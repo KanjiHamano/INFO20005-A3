@@ -99,6 +99,25 @@ function addToCart(productId) {
   // Update the badge number in the header
   updateCartBadge();
 
+  /* --- BADGE BUMP ANIMATION ---
+     This gives the user a clear visual signal that the badge just updated.
+
+     How it works:
+     1. We remove the "bump" class first (in case it is already on the badge
+        from a previous add-to-cart click).
+     2. void badge.offsetWidth forces the browser to notice the removal
+        before we add the class back. Without this line, some browsers would
+        skip the animation because the class was removed and re-added too fast.
+     3. We add "bump" back, which restarts the CSS @keyframes animation.
+
+     The animation itself is defined in style.css (.cart-count.bump). */
+  var badge = document.getElementById("cart-badge");
+  if (badge) {
+    badge.classList.remove("bump");   // step 1: remove so the animation can restart
+    void badge.offsetWidth;           // step 2: force browser to register the removal
+    badge.classList.add("bump");      // step 3: add back to trigger the animation
+  }
+
   // Show a brief "Added!" message
   showToast(product.name + " added to cart!");
 }
@@ -126,7 +145,10 @@ function updateCartBadge() {
   // Show the number (or hide the badge if cart is empty)
   if (totalItems > 0) {
     badge.textContent = totalItems;
-    badge.style.display = "inline-block";
+    /* FIX: was "inline-block" — that overrides the CSS display:flex rule,
+       so align-items + justify-content stop working and the number
+       is not truly centred. "flex" restores the CSS centering. */
+    badge.style.display = "flex";
   } else {
     badge.style.display = "none";
   }

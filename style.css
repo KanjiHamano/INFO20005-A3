@@ -790,6 +790,32 @@ body {
   border: 2.5px solid #e8dcc8;
 }
 
+/* --- CART BADGE BUMP ANIMATION ---
+   Plays a quick scale-up → scale-down whenever an item is added to the cart.
+   This draws the user's eye to the badge so they clearly see the count change.
+
+   HOW @keyframes WORKS:
+   @keyframes defines the steps of an animation.
+   "badge-bump" is the name we give to this animation (used in .cart-count.bump below).
+   0%  = start:   badge is normal size (scale 1).
+   40% = peak:    badge pops up to 1.45× its size — clearly noticeable.
+   100% = end:    badge shrinks back to normal size.
+
+   HOW .cart-count.bump WORKS:
+   When the JavaScript adds the "bump" class to the badge element,
+   the browser plays the badge-bump animation once (0.35s, ease-out).
+   "forwards" keeps the badge at scale(1) once the animation finishes,
+   rather than snapping back to whatever it was before. */
+@keyframes badge-bump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.45); }
+  100% { transform: scale(1); }
+}
+
+.cart-count.bump {
+  animation: badge-bump 0.35s ease-out forwards;
+}
+
 /* --- CHECKOUT LINK BUTTON (cart.html) ---
    UPDATED: The Checkout button is the most important action on the cart page.
    A slightly larger font and taller padding make it unmistakably the primary
