@@ -230,15 +230,28 @@
           /* item.id is the product number (0–6).
              PRODUCTS[item.id].img is the image path stored in cart.js.
              This way the right photo appears next to each item. */
+          /* Safety check: look up the product in the PRODUCTS array.
+             If for any reason the id isn't found (e.g. old localStorage data),
+             we fall back to an empty image src so the page doesn't crash. */
+          var productData = PRODUCTS[item.id];
+          var imgSrc = productData ? productData.img : "";
+
           var itemHTML =
             '<li class="cart-item card">' +
-              '<img src="' + PRODUCTS[item.id].img + '" alt="' + item.name + '" class="cart-thumb product-img" />' +
+              '<img src="' + imgSrc + '" alt="' + item.name + '" class="cart-thumb product-img" />' +
               '<div class="cart-item-info">' +
                 '<p class="product-name">' + item.name + '</p>' +
                 '<p class="muted">Qty ' + item.qty + '</p>' +
                 '<p class="price">$' + lineTotal.toFixed(2) + '</p>' +
               '</div>' +
-              '<button class="btn-remove" onclick="handleRemove(' + item.id + ')">' +
+              /* FIX: added "btn" base class alongside "btn-remove".
+                 Without "btn", the button does not inherit font-family,
+                 cursor, or text-align from the shared .btn rule, so it
+                 looked slightly inconsistent with every other button on
+                 the site. The .btn-remove rules (smaller padding, red-brown
+                 border, smaller font) come later in style.css and still
+                 override the base .btn values correctly. */
+              '<button class="btn btn-remove" onclick="handleRemove(' + item.id + ')">' +
                 'Remove' +
               '</button>' +
             '</li>';

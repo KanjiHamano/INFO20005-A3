@@ -4,6 +4,34 @@
    <link rel="stylesheet" href="style.css" />
    ============================================================ */
 
+/* ============================================================
+   COLOUR SYSTEM — Australian by Design
+
+   All colours on this site come from this palette.
+   If you ever want to change the look, update these values
+   and the change will flow through everywhere automatically.
+
+   BACKGROUND
+     #e8dcc8  — warm beige      — body background (the "paper" the site sits on)
+
+   SURFACES (cards and interactive elements)
+     #faf6ef  — light cream     — cards, form input backgrounds
+     #f3eadc  — warm beige-alt  — secondary buttons, chips, filter pills, icon buttons
+
+   TEXT
+     #3b2a20  — dark brown      — main headings and body text (highest contrast)
+     #5c4033  — medium brown    — secondary body text, back link text
+     #6b5b4d  — muted brown     — supporting info (qty labels, dates, etc.)
+
+   BORDERS & DIVIDERS
+     #d8cbb8  — light warm      — card borders, chip borders, form input borders
+     #8b7355  — medium warm     — section title underlines, filter pills, outline buttons
+
+   ACTION COLOURS
+     #4a3226  — dark action     — primary buttons, qty buttons, cart badge, toast, icon
+     #8b3a3a  — red-brown       — remove/destructive button ONLY
+   ============================================================ */
+
 /* --- RESET ---
    Removes inconsistent spacing added by different browsers */
 *,
@@ -149,9 +177,14 @@ body {
   fill: none;
 }
 
-/* Grey Browse Categories bar */
+/* Browse Categories bar
+   COLOUR FIX: changed background from #c9c2b6 (slightly grey/cool) to
+   #f3eadc (warm beige-alt). The old grey-ish tone clashed with the warm
+   cream cards and beige background. Now it sits naturally in the palette.
+   A light card border (#d8cbb8) distinguishes it from the body background. */
 .browse-bar {
-  background: #c9c2b6;
+  background: #f3eadc;
+  border: 1px solid #d8cbb8;
   color: #3b2a20;
   padding: 10px 14px;
   border-radius: 12px;
@@ -159,12 +192,15 @@ body {
   margin-bottom: 12px;
 }
 
-/* Search bar */
+/* Search bar
+   COLOUR FIX: border changed from #b9a995 to #d8cbb8 (light warm border)
+   to match card borders and form input borders — all input/container
+   borders now use one consistent light warm value. */
 .search-input {
   width: 100%;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid #b9a995;
+  border: 1px solid #d8cbb8;
   background: #faf6ef;
   font-size: 1rem;
   margin-bottom: 12px;
@@ -182,7 +218,11 @@ body {
     padding: 6px 12px;
     border-radius: 999px;
     background: #f3eadc;
-    border: 1px solid #c4b49f;
+    /* COLOUR FIX: changed from #c4b49f to #d8cbb8 (light warm border)
+       to match the card and input border colour. Chips are non-interactive
+       labels, so they should use the lighter border, not the medium border
+       (#8b7355) reserved for interactive elements like filter pills. */
+    border: 1px solid #d8cbb8;
     font-size: 0.85rem;
   }
   
@@ -300,25 +340,39 @@ body {
   }
 
   /* --- SECONDARY BUTTON ---
-     NEW CLASS. Used for actions that matter but are less urgent than primary
-     (e.g. "View Order" on the confirmation page, "View" on product cards).
+     Used for actions that matter but are less urgent than primary
+     (e.g. "View Order" on the confirmation page).
      A warm beige background keeps it in the site palette but clearly
-     lower in priority than the dark .btn-primary. */
+     lower in priority than the dark .btn-primary.
+
+     HIERARCHY FIX: Changed border from "2px solid #4a3226" to
+     "1.5px solid #8b7355". Using #8b7355 (the site's standard medium-weight
+     border) unifies secondary buttons with filter pills, outline buttons,
+     section titles, and back links — all of which use the same value.
+     This means every "mid-importance" element shares one border colour. */
   .btn-secondary {
-    background: #f3eadc;      /* warm beige — lighter than primary */
-    color: #4a3226;           /* same dark brown text */
-    border: 2px solid #4a3226;
+    background: #f3eadc;      /* warm beige-alt — lighter than primary */
+    color: #4a3226;           /* dark brown text — same as primary */
+    border: 1.5px solid #8b7355;  /* medium warm — consistent with outline/back-link */
     font-weight: 600;
   }
 
   /* --- OUTLINE BUTTON ---
-     Least important interactive actions (e.g. "View" in the product grid,
-     small navigation links styled as buttons).
-     Transparent background keeps it visually light. */
+     Least important interactive actions (e.g. "View" in the product grid).
+     Transparent background keeps it visually light.
+
+     HIERARCHY FIX: Changed border from "2px solid #4a3226" to
+     "1.5px solid #8b7355" and text from #4a3226 to #5c4033.
+     The original dark border used the exact same colour (#4a3226)
+     as the primary button's fill — so "View" and "Add to cart"
+     sitting side by side in a grid card felt almost equally important.
+     #8b7355 is a warm medium-brown already used in the site (filter pills,
+     section title border), so this stays on-palette while clearly stepping
+     down in visual weight below both primary and secondary. */
   .btn-outline {
     background: transparent;
-    color: #4a3226;
-    border: 2px solid #4a3226;
+    color: #5c4033;           /* slightly lighter text — was #4a3226 */
+    border: 1.5px solid #8b7355;  /* soft warm brown — was 2px solid #4a3226 */
     font-weight: 600;
   }
   
@@ -592,10 +646,15 @@ body {
     margin-top: 6px;
     padding: 10px 12px;
     border-radius: 12px;
-    border: 1px solid #b9a995;
+    /* COLOUR FIX: border changed from #b9a995 to #d8cbb8 (light warm border)
+       to match the card border colour — form inputs sit inside a .card,
+       so sharing the same border value makes them feel integrated.
+       Background changed from #fffdf8 to #faf6ef — the card cream colour —
+       eliminating a third near-white value from the palette. */
+    border: 1px solid #d8cbb8;
     font-size: 1rem;
     font-family: inherit;
-    background: #fffdf8;
+    background: #faf6ef;
   }
   
   /* ---------- 注文完了 ---------- */
@@ -661,20 +720,31 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #4a3226;
+  /* HIERARCHY FIX: changed from #4a3226 to #5c4033 so navigation links
+     look clearly lighter than primary action buttons. The pill shape
+     (border-radius:999px) already signals "this is navigation, not an
+     action" — the softer colour reinforces that. */
+  color: #5c4033;
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 600;
   margin-bottom: 14px;
   padding: 7px 16px;
-  border: 1.5px solid #4a3226;
-  border-radius: 999px;       /* pill shape */
+  /* HIERARCHY FIX: changed from "1.5px solid #4a3226" to #8b7355
+     to match the softened .btn-outline border.  Back links and "View"
+     buttons are both tertiary actions — they should look equally light. */
+  border: 1.5px solid #8b7355;
+  border-radius: 999px;       /* pill shape — visually signals navigation */
   background: transparent;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
 .back-link:hover {
-  background: #4a3226;        /* fill on hover */
+  /* COLOUR FIX: changed from #6b5040 to #4a3226 — the primary dark brown.
+     This matches the hover behaviour of qty buttons and the icon button,
+     all of which fill with #4a3226 on hover. One hover brown throughout. */
+  background: #4a3226;
+  border-color: #4a3226;
   color: #faf6ef;
   text-decoration: none;
 }
@@ -775,9 +845,13 @@ body {
   justify-content: center;   /* centres horizontally */
   font-family: Arial, sans-serif; /* sans-serif digits centre cleanly */
 
-  /* --- COLOURS --- */
-  background: #5c3d2e;
-  color: #ffffff;
+  /* --- COLOURS ---
+     COLOUR FIX: changed from #5c3d2e to #4a3226 — the same dark brown
+     used for primary buttons, qty buttons, and the toast notification.
+     Having a slightly different dark brown on the badge vs. the buttons
+     created a subtle mismatch; now all dark action elements share one value. */
+  background: #4a3226;
+  color: #faf6ef;  /* cream text — consistent with primary button text */
 
   /* --- TEXT --- */
   font-size: 0.72rem;
@@ -785,8 +859,9 @@ body {
   line-height: 1;   /* prevents font line-height from pushing digit off-centre */
 
   /* --- SEPARATION RING ---
-     Matches the page background colour so the badge looks like
-     it floats above the icon rather than being stamped on it. */
+     #e8dcc8 is the body background colour — the ring matches it exactly
+     so the badge looks like it floats above the icon rather than
+     being stamped directly onto it. This is a standard app technique. */
   border: 2.5px solid #e8dcc8;
 }
 
